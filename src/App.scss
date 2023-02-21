@@ -1,0 +1,20 @@
+@import '_setting.scss';
+
+
+body {
+  margin: 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  line-height: 1.3rem;
+}
+
+.trello-web {
+  height: 100vh;
+  overflow: hidden;
+  background-color: $board-bg-color;
+  color: #333;
+  .icon {
+    font-size: 14px;
+    margin-right: 3px;
+  }
+}

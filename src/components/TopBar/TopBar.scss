@@ -1,0 +1,12 @@
+@import '_setting.scss';
+
+$topbar-bg-color: #0067a3;
+
+.navbar-top {
+  height: $navbar-top-height;
+    background-color: $topbar-bg-color;
+    font-size: 1.5rem;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+  }
