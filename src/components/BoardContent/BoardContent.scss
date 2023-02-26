@@ -53,6 +53,9 @@
 
     input.input-enter-new-column {
       margin: 5px;
+      &:focus {
+        border-color: $input-border-color;
+      }
     }
     span.cancel-new-column {
       margin-left: 10px;
