@@ -11,7 +11,7 @@ export const initialData = {
           cardOrder: ['card-1', 'card-2', 'card-3', 'card-4', 'card-5'],
           cards: [
             {
-              id: 'card-1', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 1', cover: 'https://scontent.fhan19-1.fna.fbcdn.net/v/t1.18169-9/16174731_725737350922304_4278245071131439818_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=KiGYZyJWcwAAX_PW8cl&_nc_oc=AQnvAzX9b7Cd9qawp6puL-_43cyqTrMCPpRikZF8aMiBIXIWQq9sUfTEVE0OepGiqEo&_nc_ht=scontent.fhan19-1.fna&oh=00_AfCF5Nuddu8GRymaeH380GXypLiqIcy5kAAZAZ5-DL_TjA&oe=641ABC27'
+              id: 'card-1', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 1', cover: 'https://cdn.pixabay.com/photo/2020/04/30/14/03/mountains-and-hills-5112952__480.jpg'
             },
             {
               id: 'card-2', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 2', cover: null
