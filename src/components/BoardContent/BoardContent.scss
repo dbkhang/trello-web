@@ -27,6 +27,7 @@
   }
 
   .add-new-column {
+    margin-top: 10px;
     width: 250px;
     max-width: 250px;
     // height: 32px;
@@ -55,17 +56,6 @@
       margin: 5px;
       &:focus {
         border-color: $input-border-color;
-      }
-    }
-    span.cancel-new-column {
-      margin-left: 10px;
-      cursor: pointer;
-      i {
-        font-size: 18px;
-        color: #ee5253;
-        &:hover {
-          color: darken($color: #ee5253, $amount: 10);
-        }
       }
     }
   }

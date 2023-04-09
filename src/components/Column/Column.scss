@@ -7,12 +7,13 @@ $colum-bottom-height: 36px;
 $column-height: calc( #{$board-content-height} - #{$gap * 2});
 
 .column {
+  margin-top: 10px;
   flex: 0 0 auto;
   width: 300px;
   height: $column-height;
   margin-left: 10px;
   > * {
-    background-color: $list-bg-color;
+    background-color: rgba($color: $list-bg-color, $alpha: 0.4);
     padding: 0 8px;
   }
 
@@ -71,16 +72,19 @@ $column-height: calc( #{$board-content-height} - #{$gap * 2});
   footer {
     padding-left: 10px;
     height: $colum-bottom-height;
+    min-height: 10px;
     line-height: $colum-bottom-height;
     font-weight: bold;
     border-bottom-left-radius: $colum-border-radius;
     border-bottom-right-radius: $colum-border-radius;
     color: #888;
     .footer-actions {
-      margin-left: 10px;
+      padding-left: 10px;
+      border-radius: 5px;
       cursor: pointer;
       &:hover {
         color: #333;
+        background-color: rgba($color: #333, $alpha: 0.3);
       }
     }
   }
@@ -115,6 +119,13 @@ $column-height: calc( #{$board-content-height} - #{$gap * 2});
       background-color: rgba(150, 150, 200, 0.1);
       border: 1px dashed #abc;
       margin: 5px;
+    }
+
+    .add-new-card {
+      .input-enter-new-card {
+        min-height: 54px;
+        max-height: 162px;
+      }
     }
   }
 }

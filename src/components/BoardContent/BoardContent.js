@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { isEmpty } from 'lodash'
-import { Container as BootstrapContainer,
-  Row, Col, Form, Button } from 'react-bootstrap'
+import { Container as BootstrapContainer, Row, Col, Form, Button } from 'react-bootstrap'
 
 import Column from 'components/Column/Column'
 import { mapOrder } from 'utilities/sorts'
-import { initialData } from 'action/initialData'
+import { initialData } from 'actions/initialData'
 import { applyDrag } from 'utilities/dragDrop'
+// import { fetchBoardDetails, createNewColumn } from 'actions/APIcall'
 
 import './BoardContent.scss'
 
@@ -16,18 +16,25 @@ function BoardContent() {
   const [columns, setColumns] = useState({})
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
 
+  const clickOpenNewColumnForm = () => {
+    setOpenNewColumnForm(!openNewColumnForm)
+  }
+
   const newColumnInputRef = useRef(null)
 
   const [newColumnTitle, setNewColumnTitle] = useState('')
 
-  const onNewTitle = useCallback((e) => setNewColumnTitle(e.target.value), [])
+  const onNewTitle = (e) => setNewColumnTitle(e.target.value)
 
   useEffect(() => {
-    const boardFromDB = initialData.boards
-      .find(board => board.id === 'board-1')
+    const boardFromDB = initialData.boards.find(board => board.id === 'board-1')
+    // const boardId = 'abcxyz'
+    // fetchBoardDetails(boardId).then(board => {
+    //   setBoard(board)
+    //   setColumns(mapOrder(board.columns, board.columnOrder, '_id'))
+    // })
     if (boardFromDB) {
       setBoard(boardFromDB)
-
       setColumns(mapOrder(boardFromDB.columns, boardFromDB.columnOrder, 'id'))
     }
   }, [])
@@ -70,23 +77,36 @@ function BoardContent() {
     }
   }
 
-  const clickOpenNewColumnForm = () => {
-    setOpenNewColumnForm(!openNewColumnForm)
-  }
-
   const addNewColumn = () => {
     if (!newColumnTitle) {
       newColumnInputRef.current.focus()
       return
     }
 
-    const newColumnToAdd = {
+    let newColumnToAdd = {
+      // boardId: board._id,
+      // title: newColumnTitle.trim()
+
       id: Math.random().toString(36).substring(2, 5),
       boardId: board.id,
       title: newColumnTitle.trim(),
       cardOrder: [],
       cards: []
     }
+
+    // createNewColumn(newColumnToAdd).then(column => {
+    //   let newcolumns = [...columns]
+    //   newcolumns.push(column)
+
+    //   let newBoard = { ...board }
+    //   newBoard.columnOrder = newcolumns.map(c => c._id)
+    //   newBoard.columns = newcolumns
+
+    //   setColumns(newcolumns)
+    //   setBoard(newBoard)
+    //   setNewColumnTitle('')
+    //   clickOpenNewColumnForm()
+    // })
 
     let newcolumns = [...columns]
     newcolumns.push(newColumnToAdd)
@@ -101,7 +121,7 @@ function BoardContent() {
     clickOpenNewColumnForm()
   }
 
-  const onUpdateColumn = (newColumnToUpdate) => {
+  const onUpdateColumnState = (newColumnToUpdate) => {
     const columnIdToUpdate = newColumnToUpdate.id
 
     let newColumns = [...columns]
@@ -135,7 +155,11 @@ function BoardContent() {
       >
         {columns.map((column, index) => (
           <Draggable key={index} >
-            <Column column={column} onCardDrop={onCardDrop} onUpdateColumn={onUpdateColumn} />
+            <Column
+              column={column}
+              onCardDrop={onCardDrop}
+              onUpdateColumnState={onUpdateColumnState}
+            />
           </Draggable>
         ))}
       </Container>
@@ -156,7 +180,7 @@ function BoardContent() {
                 size="sm"
                 type="text"
                 placeholder="Enter column title"
-                className="input-enter-new-column"
+                className="cancel-icon"
                 ref={newColumnInputRef}
                 value={newColumnTitle}
                 onChange={onNewTitle}
