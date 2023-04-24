@@ -7,6 +7,24 @@
     width: fit-content;
     max-width: 650px;
     height: fit-content;
+    position: relative;
+    .icon-close {
+      position: absolute;
+      right: 0px;
+      top: 5px;
+      width: 40px;
+      height: 40px;
+      font-size: 30px;
+      // padding: 5px;
+      border-radius: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+      }
+    }
   }
   
   .cardinfo_box {
@@ -20,6 +38,17 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    justify-content: space-between;
+    
+  }
+  .check-box-date {
+    margin-left: 20px;
+    input {
+      width: 18px;
+      height: 18px;
+      outline: none;
+      cursor: pointer;
+      }
   }
   
   .cardinfo_box_title p {

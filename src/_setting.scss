@@ -4,9 +4,9 @@
 $gap: 10px;
 $colum-border-radius: 4px;
 
-$navbar-top-height: 5vh;
-$navbar-board-height: 6vh;
-$board-content-height: 88vh;
+$navbar-top-height: 50px;
+$navbar-board-height: 55px;
+$board-content-height: calc(100vh - $navbar-board-height - $navbar-top-height);
 
 //color
 $board-bg-color : #448030;

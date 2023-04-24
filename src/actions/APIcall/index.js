@@ -1,5 +1,15 @@
 import axios from 'axios'
 
+export const fetchSignIn = async (data) => {
+  const request = await axios.post('http://localhost:3000', data)
+  return request.data
+}
+
+export const fetchSignUp = async (data) => {
+  const request = await axios.post('http://localhost:3000', data)
+  return request.data
+}
+
 export const fetchBoardDetails = async (id) => {
   const request = await axios.get(`http://localhost:3000/${id}`)
   return request.data

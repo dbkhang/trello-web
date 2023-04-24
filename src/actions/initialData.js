@@ -1,7 +1,9 @@
-export const initialData = {
+const initialData = {
   boards: [
     {
       id: 'board-1',
+      title: 'board 1',
+      colorBoard: '#4fcc25',
       columnOrder: ['column-1', 'column-2', 'column-3'],
       columns: [
         {
@@ -302,3 +304,164 @@ export const initialData = {
     }
   ]
 }
+
+const dataUser = {
+  userName: 'testName',
+  userEmail: 'testEmail',
+  img: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
+  listBoard: [
+    {
+      id: '1',
+      title: 'board 1',
+      color: '#333'
+    },
+    {
+      id: '2',
+      title: 'board 2',
+      color: '#133'
+    },
+    {
+      id: '3',
+      title: 'board 3',
+      color: '#233'
+    },
+    {
+      id: '4',
+      title: 'board 4',
+      color: '#433'
+    },
+    {
+      id: '5',
+      title: 'board 1',
+      color: '#333'
+    },
+    {
+      id: '6',
+      title: 'board 2',
+      color: '#133'
+    },
+    {
+      id: '7',
+      title: 'board 3',
+      color: '#233'
+    },
+    {
+      id: '8',
+      title: 'board 4',
+      color: '#433'
+    }
+  ]
+}
+
+
+const dataNotifications = [
+  {
+    id: '1',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  },
+  {
+    id: '2',
+    content: 'abc đã thêm bạn vào',
+    type: false
+  },
+  {
+    id: '3',
+    content: 'abc đã thêm bạn vào',
+    type: false
+  },
+  {
+    id: '4',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  },
+  {
+    id: '5',
+    content: 'abc đã thêm bạn vào',
+    type: false
+  },
+  {
+    id: '6',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  },
+  {
+    id: '7',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  },
+  {
+    id: '8',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  },
+  {
+    id: '1',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  },
+  {
+    id: '2',
+    content: 'abc đã thêm bạn vào',
+    type: false
+  },
+  {
+    id: '3',
+    content: 'abc đã thêm bạn vào',
+    type: false
+  },
+  {
+    id: '4',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  },
+  {
+    id: '5',
+    content: 'abc đã thêm bạn vào',
+    type: false
+  },
+  {
+    id: '6',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  },
+  {
+    id: '7',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  },
+  {
+    id: '8',
+    content: 'abc đã thêm bạn vào',
+    type: true
+  }
+]
+
+const dataComment = [
+  {
+    userName: 'testName',
+    userEmail: 'testEmail',
+    img: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
+    comment: 'comment nay de test'
+  },
+  {
+    userName: 'testName',
+    userEmail: 'testEmail',
+    img: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
+    comment: 'comment nay de test'
+  },
+  {
+    userName: 'testName',
+    userEmail: 'testEmail',
+    img: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
+    comment: 'comment nay de test'
+  },
+  {
+    userName: 'testName',
+    userEmail: 'testEmail',
+    img: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
+    comment: 'comment nay de test'
+  }
+]
+
+export { initialData, dataUser, dataNotifications, dataComment }

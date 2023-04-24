@@ -6,6 +6,7 @@ import { Dropdown, Form, Button } from 'react-bootstrap'
 import Card from 'components/Card/Card'
 import { mapOrder } from 'utilities/sorts'
 import ConfirmModal from 'components/Common/ConfirmModal'
+import CardInfo from '../CardInfo/CardInfo'
 import { MODAL_ACATION_CONFIRM } from 'utilities/constants'
 // import { createNewCard, updateColumn } from 'actions/APIcall'
 
@@ -30,6 +31,9 @@ function Column(props) {
   const [newCardTitle, setNewCardTitle] = useState('')
 
   const onNewCardTitle = (e) => setNewCardTitle(e.target.value)
+
+  const [showCardInfo, setShowCardInfo] = useState(false)
+  const [oneCard, setOneCard] = useState()
 
   useEffect(() => {
     setColumnTitle(column.title)
@@ -135,60 +139,63 @@ function Column(props) {
   // }, [columnState])
 
   return (
-    <div className="column">
-      <header className="column-drag-handle">
-        <div className="column-title">
-          <Form.Control
-            size="sm"
-            type="text"
-            className="trello-editable"
-            value={columnTitle}
-            onChange={handleColumnTitleChange}
-            onBlur={handleColumnTitleBlur}
-            onKeyDown={saveTitleAfterEnter}
-            spellCheck="false"
-            onClick={selectAllInlineText}
-            onMouseDown={e => e.preventDefault()}
-          />
-        </div>
-        <div className="column-dropdown-action">
-          <Dropdown>
-            <Dropdown.Toggle id="dropdown-basic" size="sm" className="dropdown-btn" />
+    <>
+      <div className="column">
+        <header className="column-drag-handle">
+          <div className="column-title">
+            <Form.Control
+              size="sm"
+              type="text"
+              className="trello-editable"
+              value={columnTitle}
+              onChange={handleColumnTitleChange}
+              onBlur={handleColumnTitleBlur}
+              onKeyDown={saveTitleAfterEnter}
+              spellCheck="false"
+              onClick={selectAllInlineText}
+              onMouseDown={e => e.preventDefault()}
+            />
+          </div>
+          <div className="column-dropdown-action">
+            <Dropdown>
+              <Dropdown.Toggle id="dropdown-basic" size="sm" className="dropdown-btn" />
 
-            <Dropdown.Menu>
-              <Dropdown.Item>Add card...</Dropdown.Item>
-              <Dropdown.Item onClick={toggleShowConfirmModal}>Remove column...</Dropdown.Item>
-              <Dropdown.Item>Move all cards in this column...</Dropdown.Item>
-              <Dropdown.Item>Archive all cards in this column...</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </header>
-      <div className="card-list">
-        <Container
-          orientation="vertical"
-          groupName="trello-colums"
-          onDrop={dropResult => onCardDrop(column.id, dropResult)}
-          getChildPayload={index => cards[index]}
-          dragClass="card-ghost"
-          dropClass="card-ghost-drop"
-          dropPlaceholder={{
-            animationDuration: 150,
-            showOnTop: true,
-            className: 'card-drop-preview'
-          }}
-          dropPlaceholderAnimationDuration={200}
-        >
-          {cards.map((card, index) => (
-            <Draggable key={index} >
-              <Card
-                card={card}
-                updateCard={updateCard}
-              />
-            </Draggable>
-          ))}
-        </Container>
-        {openNewCardForm &&
+              <Dropdown.Menu>
+                <Dropdown.Item>Add card...</Dropdown.Item>
+                <Dropdown.Item onClick={toggleShowConfirmModal}>Remove column...</Dropdown.Item>
+                <Dropdown.Item>Move all cards in this column...</Dropdown.Item>
+                <Dropdown.Item>Archive all cards in this column...</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </header>
+        <div className="card-list">
+          <Container
+            orientation="vertical"
+            groupName="trello-colums"
+            onDrop={dropResult => onCardDrop(column.id, dropResult)}
+            getChildPayload={index => cards[index]}
+            dragClass="card-ghost"
+            dropClass="card-ghost-drop"
+            dropPlaceholder={{
+              animationDuration: 150,
+              showOnTop: true,
+              className: 'card-drop-preview'
+            }}
+            dropPlaceholderAnimationDuration={200}
+          >
+            {cards.map((card, index) => (
+              <Draggable key={index}>
+                <div onClick={() => setShowCardInfo(true)} >
+                  <Card
+                    card={card}
+                    dataCardInfo={setOneCard}
+                  />
+                </div>
+              </Draggable>
+            ))}
+          </Container>
+          {openNewCardForm &&
           <div className="add-new-card">
             <Form.Control
               size="sm"
@@ -202,31 +209,40 @@ function Column(props) {
               onKeyDown={Event => (Event.key === 'Enter') && addNewCard()}
             />
           </div>
-        }
-      </div>
-      <footer>
-        {openNewCardForm &&
+          }
+        </div>
+        <footer>
+          {openNewCardForm &&
           <div className="add-new-card-action">
             <Button variant="success" size="sm" onClick={addNewCard} >Add card</Button>
             <span className="cancel-icon" onClick={clickOpenNewCardForm}>
               <i className="fa fa-times icon" />
             </span>
           </div>
-        }
-        {!openNewCardForm &&
+          }
+          {!openNewCardForm &&
           <div className="footer-actions" onClick={clickOpenNewCardForm}>
             <i className="fa fa-plus icon" /> Add anthor card
           </div>
-        }
-      </footer>
+          }
+        </footer>
 
-      <ConfirmModal
-        show={showConfirmModal}
-        onAction={onConfirmModal}
-        title="Remove colum"
-        content={`Are you sure you want to remove <strong>${column.title}</strong>.</br> All related cards will also be romove!`}
-      />
-    </div>
+        <ConfirmModal
+          show={showConfirmModal}
+          onAction={onConfirmModal}
+          title="Remove colum"
+          content={`Are you sure you want to remove <strong>${column.title}</strong>.</br> All related cards will also be romove!`}
+        />
+      </div>
+      {showCardInfo && (
+        <CardInfo
+          onClose={() => setShowCardInfo(false)}
+          cardInfos={oneCard}
+          updateCard={updateCard}
+          show={setShowCardInfo}
+        />
+      )}
+    </>
   )
 }
 

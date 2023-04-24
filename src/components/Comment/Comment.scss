@@ -1,0 +1,67 @@
+.wrap-comment {
+    h3 {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    .action-comment textarea{
+        width: 100%;
+        height: 51px;
+        padding: 15px;
+        outline: none;
+        resize: none;
+        font-size: 16px;
+        margin-top: 20px;
+        border-radius: 5px;
+        border-color: #bfbfbf;
+        &::-webkit-scrollbar {
+            width: 0px;
+        }
+        &:is(:focus, :valid) {
+            border-color: #4671EA;
+        }
+        // &:focus + .btn-comment {
+        //     display: inline;
+        // }
+    }
+    .action-comment .btn-comment {
+        border: none;
+        height: 35px;
+        width: 50px;
+        border-radius: 5px;
+        color: white;
+        background-color: #0c66e4;
+        &:hover {
+            background-color: rgba($color: #0c66e4, $alpha: 0.8);
+        }
+    }
+}
+
+.commentchild-main {
+    margin-top: 20px;
+    // height: auto;
+    .commentchild-account img {
+        height: 35px;
+        width: 35px;
+        border-radius: 70px;
+    }
+
+    .commentchild-account span {
+        margin-left: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .commentchild-content {
+        width: 92%;
+        height: auto;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: white;
+        position: relative;
+        bottom: 15px;
+        left: 44px;
+        
+    }
+}

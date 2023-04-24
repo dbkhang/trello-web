@@ -13,14 +13,13 @@ $card-border-radius: 4px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  
-  img.card-cover {
-    display: block;
-    width: calc(100% + 2 * #{$gap});
-    margin: -10px 0 10px -10px;
-    border-top-left-radius: $card-border-radius;
-    border-top-right-radius: $card-border-radius;
-  }
+  // img.card-cover {
+  //   display: block;
+  //   width: calc(100% + 2 * #{$gap});
+  //   margin: -10px 0 10px -10px;
+  //   border-top-left-radius: $card-border-radius;
+  //   border-top-right-radius: $card-border-radius;
+  // }
 }
 
 .card_top {

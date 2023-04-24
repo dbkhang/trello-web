@@ -3,6 +3,7 @@ import { Container, Draggable } from 'react-smooth-dnd'
 import { isEmpty } from 'lodash'
 import { Container as BootstrapContainer, Row, Col, Form, Button } from 'react-bootstrap'
 
+import BoardBar from 'components/BoardBar/BoardBar'
 import Column from 'components/Column/Column'
 import { mapOrder } from 'utilities/sorts'
 import { initialData } from 'actions/initialData'
@@ -140,40 +141,58 @@ function BoardContent() {
     setBoard(newBoard)
   }
 
-  return (
-    <div className="board-content">
-      <Container
-        orientation="horizontal"
-        onDrop={onColumnDrop}
-        getChildPayload={index => columns[index]}
-        dragHandleSelector=".column-drag-handle"
-        dropPlaceholder={{
-          animationDuration: 150,
-          showOnTop: true,
-          className: 'column-drop-preview'
-        }}
-      >
-        {columns.map((column, index) => (
-          <Draggable key={index} >
-            <Column
-              column={column}
-              onCardDrop={onCardDrop}
-              onUpdateColumnState={onUpdateColumnState}
-            />
-          </Draggable>
-        ))}
-      </Container>
+  const onUpdateTitleBoard = (newTitle) => {
+    let newBoard = board
+    newBoard.title = newTitle
+    setBoard(newBoard)
+  }
 
-      <BootstrapContainer className="trello-container">
-        {!openNewColumnForm &&
+  const onUpdateColorBoard = (newColor) => {
+    let newBoard = { ...board }
+    newBoard.colorBoard = newColor
+    setBoard(newBoard)
+  }
+
+  return (
+    <div style={{ backgroundColor: board.colorBoard }}>
+      <BoardBar
+        onUpdateTitleBoard={onUpdateTitleBoard}
+        boardTitle={board.title}
+        updateColorBoard={onUpdateColorBoard}
+      />
+      <div className="board-content">
+        <Container
+          orientation="horizontal"
+          onDrop={onColumnDrop}
+          getChildPayload={index => columns[index]}
+          dragHandleSelector=".column-drag-handle"
+          dropPlaceholder={{
+            animationDuration: 150,
+            showOnTop: true,
+            className: 'column-drop-preview'
+          }}
+        >
+          {columns.map((column, index) => (
+            <Draggable key={index} >
+              <Column
+                column={column}
+                onCardDrop={onCardDrop}
+                onUpdateColumnState={onUpdateColumnState}
+              />
+            </Draggable>
+          ))}
+        </Container>
+
+        <BootstrapContainer className="trello-container">
+          {!openNewColumnForm &&
           <Row>
             <Col className="add-new-column" onClick={clickOpenNewColumnForm}>
               <i className="fa fa-plus icon" /> Add anthor card
             </Col>
           </Row>
-        }
+          }
 
-        {openNewColumnForm &&
+          {openNewColumnForm &&
           <Row>
             <Col className="enter-new-column">
               <Form.Control
@@ -192,8 +211,9 @@ function BoardContent() {
               </span>
             </Col>
           </Row>
-        }
-      </BootstrapContainer>
+          }
+        </BootstrapContainer>
+      </div>
     </div>
   )
 }

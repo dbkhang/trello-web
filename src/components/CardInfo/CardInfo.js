@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import './CardInfo.scss'
 import ModalCardInfo from '../Modal/ModalCardInfo'
 import InputForm from 'components/InputForm/InputForm'
+import Comment from 'components/Comment/Comment'
+import TextareaForm from 'components/InputForm/TextareaForm'
 
 function CardInfo(props) {
   const colors = [
@@ -15,9 +17,10 @@ function CardInfo(props) {
     '#240959'
   ]
 
-  const { onClose, cardInfos, updateCard } = props
-  const [values, setValues] = useState(props.cardInfos)
+  const { onClose, cardInfos, updateCard, show } = props
+  const [values, setValues] = useState(cardInfos)
   const [selectedColor, setSelectedColor] = useState('')
+  const [colorDate, setColorxDate] = useState('black')
 
   const calculatePercent = () => {
     if (!values.tasks?.length) return 0
@@ -101,6 +104,14 @@ function CardInfo(props) {
     })
   }
 
+  const checkDate = (e) => {
+    if (e.target.checked) {
+      setColorxDate('#4fcc25')
+    } else {
+      setColorxDate('black')
+    }
+  }
+
   useEffect(() => {
     if (updateCard) updateCard(values)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,9 +120,11 @@ function CardInfo(props) {
   return (
     <ModalCardInfo onClose={onClose}>
       <div className="cardinfo">
+        <div className="icon-close" onClick={() => show(false)}>
+          <i className="fa fa-times" />
+        </div>
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
-            {/* <Type /> */}
             <p>Title</p>
           </div>
           <InputForm
@@ -128,7 +141,7 @@ function CardInfo(props) {
             {/* <List /> */}
             <p>Description</p>
           </div>
-          <InputForm
+          <TextareaForm
             type='1'
             defaultValue={values.description}
             text={values.description || 'Add a Description'}
@@ -142,13 +155,23 @@ function CardInfo(props) {
             {/* <Calendar /> */}
             <p>Date</p>
           </div>
-          <input
-            type="date"
-            value={cardInfos.date}
-            // defaultValue={cardInfos.date}
-            min={new Date().toISOString().substr(0, 10)}
-            onChange={(event) => updateDate(event.target.value)}
-          />
+          <div className="carrinfo-date">
+            <input
+              type="date"
+              value={values.date}
+              // defaultValue={cardInfos.date}
+              min={new Date().toISOString().substr(0, 10)}
+              onChange={(event) => updateDate(event.target.value)}
+              style={{ color: colorDate }}
+            />
+            <span className="check-box-date">
+              <input
+                type="checkbox"
+                // defaultChecked={checkBoxDate}
+                onClick={checkDate}
+              />
+            </span>
+          </div>
         </div>
 
         <div className="cardinfo_box">
@@ -157,7 +180,7 @@ function CardInfo(props) {
             <p>Labels</p>
           </div>
           <div className="cardinfo_box_labels">
-            {cardInfos.labels?.map((item, index) => (
+            {values.labels?.map((item, index) => (
               <label
                 key={index}
                 style={{ backgroundColor: item.colors, color: '#fff' }}
@@ -202,7 +225,7 @@ function CardInfo(props) {
             />
           </div>
           <div className="cardinfo_box_task_list">
-            {cardInfos.tasks?.map((item) => (
+            {values.tasks?.map((item) => (
               <div key={item.id} className="cardinfo_box_task_checkbox">
                 <input
                   type="checkbox"
@@ -223,6 +246,7 @@ function CardInfo(props) {
             onSubmit={addTask}
           />
         </div>
+        <Comment />
       </div>
     </ModalCardInfo>
   )

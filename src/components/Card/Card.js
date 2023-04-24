@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import './Card.scss'
-import CardInfo from '../CardInfo/CardInfo'
+// import CardInfo from '../CardInfo/CardInfo'
 
 function Card(props) {
-  const { card, updateCard } = props
-  const [showCardInfo, setShowCardInfo] = useState(false)
+  const { card, dataCardInfo } = props
+  // const [showCardInfo, setShowCardInfo] = useState(false)
   const formatDate = (value) => {
     if (!value) return ''
     const date = new Date(value)
@@ -49,25 +49,10 @@ function Card(props) {
 
   return (
     <>
-      {showCardInfo && (
-        <CardInfo
-          onClose={() => setShowCardInfo(false)}
-          cardInfos={card}
-          updateCard={updateCard}
-        />
-      )}
       <div
         className="card-item"
-        onClick={() => setShowCardInfo(true)}
+        onClick={() => dataCardInfo(card)}
       >
-        {/* {card.cover &&
-          <img
-            src={card.cover}
-            className='card-cover'
-            alt=""
-            onMouseDown={e => e.preventDefault()}
-          />
-        } */}
         <div className="card_title">{card.title}</div>
         <div className="card_top">
           <div className="card_top_labels">
