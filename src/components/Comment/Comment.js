@@ -19,9 +19,10 @@ function Comment() {
       setShowBtnComment(false)
     }
   }, [textComment])
+
+
   const handleHeightTextarea = (e) => {
     setTextComment(e.target.value)
-    // setHeightTextarea(`${e.target.scrollHeight}px`)
     textarea.style.height = '51px'
     let sc = e.target.scrollHeight
     textarea.style.height = `${sc}px`

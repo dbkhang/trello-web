@@ -1,13 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import './Home.scss'
 import TopBar from 'components/TopBar/TopBar'
 import CardBoardItem from 'components/CardBoardItem/CardBoardItem'
 import { dataUser } from 'actions/initialData'
 import InputForm from 'components/InputForm/InputForm'
+import { fetchDataHome, createNewBoard } from 'actions/APIcall/APIPageHome'
 
 function Home() {
+  const [userData, setUserData] = useState()
   const [board, setBoard] = useState(dataUser.listBoard)
+
+  useEffect(() => {
+    fetchDataHome().then(data => {
+      setUserData(data)
+      // setBoard(data.listBoard)
+    }).catch(error => console.log(error))
+  }, [])
 
   const addBoard = (titleBoard) => {
     const newBoardAdd = {
@@ -15,6 +24,17 @@ function Home() {
       title: titleBoard,
       color: '#333'
     }
+    createNewBoard(newBoardAdd).then(newBoardAdd => {
+      let newBoard = [...board]
+      newBoard.push(newBoardAdd)
+      setBoard(newBoard)
+    })
+    let newBoard = [...board]
+    newBoard.push(newBoardAdd)
+    setBoard(newBoard)
+  }
+
+  const addeedBoard = (newBoardAdd) => {
     let newBoard = [...board]
     newBoard.push(newBoardAdd)
     setBoard(newBoard)
@@ -23,7 +43,8 @@ function Home() {
   return (
     <div>
       <TopBar
-        data={dataUser}
+        data={dataUser} //sửa thành userData
+        addBoard={addeedBoard}
       />
       <div className='main-home'>
         <div className='container-home'>

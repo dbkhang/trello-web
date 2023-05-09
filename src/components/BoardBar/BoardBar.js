@@ -1,8 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Form } from 'react-bootstrap'
 
 import './BoardBar.scss'
 import InfoMember from 'components/InfoMember/InfoMember'
+import { APIupdateTitleBoard,
+  APIinviteMember,
+  APIshowMember,
+  APIdeleteMember,
+  APIupdateColor
+} from 'actions/APIcall/APIBoard'
 
 function BoardBar(props) {
   const colors = [
@@ -14,30 +20,65 @@ function BoardBar(props) {
     '#cf61a1',
     '#240959'
   ]
+  const idBoard = props.idBoard
   const [titleBoard, setTitleBoard]= useState(props.boardTitle)
   const [showMemberBoard, setShowMemberBoard] = useState(false)
   const [showActionsBoard, setShowActionsBoard] = useState(false)
   const [selectedColor, setSelectedColor] = useState('')
   const [showInvite, setShowInvite] = useState(false)
+  const [inviteMember, setInviteMember] = useState('')
+  const focusInput = useRef()
+  const [listMember, setListMember] = useState()
+
+  useEffect(() => {
+    if (focusInput && focusInput.current) {
+      focusInput.current.focus()
+      focusInput.current.select()
+    }
+  }, [showInvite])
+
+  const handleInviteMember = () => {
+    const data = {
+      inviteMember: inviteMember,
+      idBoard: idBoard
+    }
+    APIinviteMember(data).then(ok => {
+      setShowInvite(!showInvite)
+    }).catch(error => console.log(error))
+    // setShowInvite(!showInvite)
+  }
 
   const handleBoardTitleChange = (e) => setTitleBoard(e.target.value)
 
   const handleShowActionBoard = () => setShowActionsBoard(!showActionsBoard)
 
   const handleBoardTitleBlur = () => {
-    // const newColumn = {
-    //   ...column,
-    //   title: columnTitle
-    // }
-    // // Call API update column
-    // // if (columnTitle !== column.title) {
-    // //   updateColumn(newColumn._id, newColumn).then(updateColumn => {
-    // //     updateColumn.cards = newColumn.cards
-    // //     onUpdateColumnState(updateColumn)
-    // //   })
-    // // }
-    // onUpdateColumnState(newColumn)
+    // API
+    const data = {
+      idBoard: idBoard,
+      title: titleBoard
+    }
+    APIupdateTitleBoard(data).then(title => {
+      props.onUpdateTitleBoard(title)
+    }).catch(error => console.log(error))
+    // /////////////
+
     props.onUpdateTitleBoard(titleBoard)
+  }
+
+  const handleShowMember = () => {
+    // API xem thanh vien
+    APIshowMember(idBoard).then(rep => {
+      setListMember(rep)
+      setShowMemberBoard(!showMemberBoard)
+    }).catch(error => console.log(error))
+  }
+
+  const deleteMember = (data) => {
+    // API delete Member
+    APIdeleteMember(data).then(rep => {
+      setListMember(rep)
+    }).catch(error => console.log(error))
   }
 
   const saveTitleAfterEnter = (e) => {
@@ -52,6 +93,15 @@ function BoardBar(props) {
   }
 
   const updateColor = (color) => {
+    // API
+    const data = {
+      idBoard: idBoard,
+      colorBoard: color
+    }
+
+    APIupdateColor(data).then(rep => {
+      props.updateColorBoard(rep)
+    }).catch(error => console.log(error))
     setSelectedColor(color)
     props.updateColorBoard(color)
   }
@@ -78,7 +128,7 @@ function BoardBar(props) {
 
         <div className="item member-board">
           <div className="more-members" >
-            <div onClick={() => setShowMemberBoard(!showMemberBoard)}>Members</div>
+            <div onClick={handleShowMember}>Members</div>
             {showMemberBoard &&
               <nav className="members-wrapper">
                 <div className="members-arrow-top"></div>
@@ -87,8 +137,16 @@ function BoardBar(props) {
                     <h3>Members in the table</h3>
                   </div>
                   <div className="members-container">
-                    <InfoMember />
-                    <InfoMember />
+                    {listMember.map((member, index) => (
+                      <InfoMember
+                        key= {index}
+                        id={member.id}
+                        userName={member.userName}
+                        Email={member.email}
+                        image={member.image}
+                        deleteMember={deleteMember}
+                      />
+                    ))}
                   </div>
                 </div>
               </nav>
@@ -102,8 +160,12 @@ function BoardBar(props) {
             }
             {showInvite &&
               <div className="show-invite">
-                <input />
-                <button>Invite</button>
+                <input
+                  ref={ focusInput }
+                  value={ inviteMember }
+                  onChange={(e) => setInviteMember(e.target.value)}
+                />
+                <button onClick={handleInviteMember}>Invite</button>
                 <i className="fa fa-times" onClick={() => setShowInvite(!showInvite)} />
               </div>
             }

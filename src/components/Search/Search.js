@@ -1,73 +1,71 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import HeadlessTippy from '@tippyjs/react/headless'
 
 import './Search.scss'
+import { searchAPI } from 'actions/APIcall/searchAPI'
 
 
 function Search() {
   const [searchValue, setSearchValue] = useState('')
   const [showResult, setShowResult] = useState(false)
+  const [listBoard, setListBoard] = useState([])
 
-  // const onChangeSearchValue = (e) => setSearchValue(e.target.value)
-  //   const [searchResult, setSearchResult] = useState([]);
-  //   const [showResult, setShowResult] = useState(false);
-  //   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (!searchValue.trim()) {
+      setListBoard([])
+      setShowResult(false)
+      return
+    } else {
+      setShowResult(true)
+    }
+    const fetchApi = async () => {
 
+      const result = await searchAPI(searchValue)
+      // const result = [
+      //   {
+      //     title: 'bac',
+      //     id: '1'
+      //   },
+      //   {
+      //     title: 'bac',
+      //     id: '2'
+      //   },
+      //   {
+      //     title: 'bac',
+      //     id: '3'
+      //   }
+      // ]
+      setListBoard(result)
+    }
 
-  //     useEffect(() => {
-  //     if (!debouncedValue.trim()) {
-  //       setSearchResult([])
-  //       return
-  //     }
-
-  //     const fetchApi = async () => {
-  //       setLoading(true)
-
-  //       const result = await searchServices.search(debouncedValue);
-
-  //       setSearchResult(result)
-  //       setLoading(false)
-  //     }
-
-  //     fetchApi()
-  //   }, [debouncedValue])
-
-  //   const handleClear = () => {
-  //     setSearchValue('')
-  //     setSearchResult([])
-  //   }
-
-  //   const handleHideResult = () => {
-  //     setShowResult(false)
-  //   }
-
-  //   const handleChange = (e) => {
-  //     const searchValue = e.target.value;
-  //     if (!searchValue.startsWith(' ')) {
-  //       setSearchValue(searchValue)
-  //     }
-  //   }
+    fetchApi()
+  }, [searchValue])
   return (
-    <div className="item search">
-      <input
-        className="input-search"
-        onChange={(e) => setSearchValue(e.target.value)}
-      />
-      <div className="search-btn"><i className="fa fa-search" /></div>
-      { showResult &&
-        <div className="search-result">
-          {/* {listBoard.map((item, index) => (
+    <HeadlessTippy
+      interactive
+      visible={ showResult && listBoard.length > 0 }
+      render={attrs => (
+        <div className="search-result" tabIndex="-1" {...attrs}>
+          {listBoard.map((item, index) => (
             <Link
               key={index}
               className="list-board-show"
-              style={{ backgroundColor: item.color }}
-              onClick={clickBoard}
               to="/board"
-            >{item.title}</Link>
-          ))} */}
+            >{ item.title }</Link>
+          ))}
         </div>
-      }
-    </div>
+      )}
+      onClickOutside={() => setShowResult(false)}
+    >
+      <div className="search">
+        <input
+          className="input-search"
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
+        {/* <div className="search-btn"><i className="fa fa-search" /></div> */}
+      </div>
+    </HeadlessTippy>
 
   )
 }

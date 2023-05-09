@@ -27,37 +27,43 @@ function SignUp() {
   }
 
   return (
-    <div className="main-signin">
-      <div className="content-signin">
-        <div className="title-signin"><h2>SignUp Trello</h2></div>
-        <div className="input-signin">
-          <input
-            placeholder="Email"
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </div>
-        <div className="input-signin">
-          <input
-            placeholder="UserName"
-            onChange={(event) => setUserName(event.target.value)}
-          />
-        </div>
-        <div className="input-signin">
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
+    <div className="main-signup">
+      <div className="content-signup">
+        <div className="title-signup"><h2>SignUp Trello</h2></div>
+        <form>
+          <div className="input-signup">
+            <label>Email</label>
+            <input
+              // placeholder="Email"
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+          <div className="input-signup">
+            <label>UserName</label>
+            <input
+              // placeholder="UserName"
+              onChange={(event) => setUserName(event.target.value)}
+            />
+          </div>
+          <div className="input-signup">
+            <label>Password</label>
+            <input
+              type="password"
+              // placeholder="Password"
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+        </form>
         <div className="text-red-500">{error}</div>
         <div>
           <button
             onClick={handleSignUp}
-            className="btn-signin"
+            className="btn-signup"
           >Create Account</button>
-          <Link to="/signin" >
-            <button className="btn-signin" >Sign ip</button>
-          </Link>
+          <div className="link-signin">
+            <span> Have an account? </span>
+            <Link to="/signin" >Create an account </Link>
+          </div>
         </div>
       </div>
     </div>

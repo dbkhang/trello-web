@@ -145,7 +145,8 @@ $board-bg-color : #63bb46;
             input {
               border: none;
               height: 30px;
-              
+              border: 1px solid #333;
+              padding-left: 5px;
             }
             button {
               height: 31px;

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 
 import './EditAccount.scss'
 import TopBar from 'components/TopBar/TopBar'
+import { APIupdatePassword, APIupdateInformation } from 'actions/APIcall/APIeditAccount'
 import { dataUser } from 'actions/initialData'
 
 function EditAccount() {
@@ -33,11 +34,24 @@ function EditAccount() {
   }, [showCheck])
 
   const changePassword = () => {
+    if (newPassword === '' || confirmPassword === '' || password === '') {
+      setErrChangePassword('Hãy điền đầy đủ thông tin')
+      return
+    }
     if (newPassword !== confirmPassword) {
-      setErrChangePassword('mat khau moi khong dung')
+      setErrChangePassword('Mật Khẩu mới chưa trùng')
+      return
     } else {
       setErrChangePassword('')
     }
+    // API
+    const dataPass = {
+      password: password,
+      newPassword: newPassword
+    }
+    APIupdatePassword(dataPass).then(data => {
+      //
+    }).catch(error => console.log(error))
   }
 
   const updateInformation = () => {
@@ -45,7 +59,18 @@ function EditAccount() {
     newData.img = image
     newData.userName = nameUser
     setData(newData)
-    console.log(image)
+
+    // API
+    const newInfo = {
+      userName: nameUser,
+      image: image
+    }
+    APIupdatePassword(newInfo).then(data => {
+      let newData = { ...data }
+      newData.img = data.image
+      newData.userName = data.userName
+      setData(newData)
+    }).catch(error => console.log(error))
   }
 
   return (

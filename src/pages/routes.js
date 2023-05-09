@@ -1,5 +1,5 @@
 import Home from './Home/Home'
-import SignIn from './SignIn/SingIn'
+import SignIn from './SignIn/SignIn'
 import SignU from './SignUp/SignUp'
 import Board from './Board/Board'
 import EditAccount from './EditAccount/EditAccount'

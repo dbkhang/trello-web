@@ -1,11 +1,9 @@
 import React from 'react'
 
 import './Card.scss'
-// import CardInfo from '../CardInfo/CardInfo'
 
 function Card(props) {
   const { card, dataCardInfo } = props
-  // const [showCardInfo, setShowCardInfo] = useState(false)
   const formatDate = (value) => {
     if (!value) return ''
     const date = new Date(value)
@@ -53,8 +51,10 @@ function Card(props) {
         className="card-item"
         onClick={() => dataCardInfo(card)}
       >
-        <div className="card_title">{card.title}</div>
-        <div className="card_top">
+        <div className="header-card">
+          <div className="card_title">{card.title}</div>
+        </div>
+        {/* <div className="card_top">
           <div className="card_top_labels">
             {card.labels?.map((item, index) => (
               <label key={index} style={{ backgroundColor: item.colors }}>
@@ -62,7 +62,7 @@ function Card(props) {
               </label>
             ))}
           </div>
-        </div>
+        </div> */}
         <div className="card_footer">
           {card.date && (
             <p className="card_footer_item">

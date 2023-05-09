@@ -16,6 +16,7 @@ const initialData = {
               id: 'card-1', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 1', cover: null,
               description: 'test car',
               date: '2024-05-05',
+              status: 'doing',
               labels: [
                 {
                   title: 'abcabc',
@@ -43,6 +44,7 @@ const initialData = {
               id: 'card-2', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 2', cover: null,
               description: 'test car',
               date: '2024-06-06',
+              status: 'over time',
               labels: [
                 {
                   title: 'abcabc',
@@ -70,6 +72,7 @@ const initialData = {
               id: 'card-3', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 3', cover: null,
               description: 'test car',
               date: '2024-7-7',
+              status: 'complete',
               labels: [
                 {
                   title: 'abcabc',
@@ -97,6 +100,7 @@ const initialData = {
               id: 'card-4', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 4', cover: null,
               description: 'test car',
               date: '2024-05-05',
+              status: 'complete',
               labels: [
                 {
                   title: 'abcabc',
@@ -132,6 +136,7 @@ const initialData = {
               id: 'card-8', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 8', cover: null,
               description: 'test car',
               date: '2024-08-08',
+              status: 'complete',
               labels: [
                 {
                   title: 'abcabc',
@@ -159,6 +164,7 @@ const initialData = {
               id: 'card-9', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 9', cover: null,
               description: 'test car',
               date: '2024-09-09',
+              status: 'over time',
               labels: [
                 {
                   title: 'abcabc',
@@ -186,6 +192,7 @@ const initialData = {
               id: 'card-10', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 10', cover: null,
               description: 'test car',
               date: '2024-10-10',
+              status: 'doing',
               labels: [
                 {
                   title: 'abcabc',
@@ -221,6 +228,7 @@ const initialData = {
               id: 'card-11', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 8', cover: null,
               description: 'test car',
               date: '2024-11-11',
+              status: 'over time',
               labels: [
                 {
                   title: 'abcabc',
@@ -248,6 +256,7 @@ const initialData = {
               id: 'card-12', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 9', cover: null,
               description: 'test car',
               date: '2024-12-12',
+              status: 'complete',
               labels: [
                 {
                   title: 'abcabc',
@@ -275,6 +284,7 @@ const initialData = {
               id: 'card-13', boardsId: 'boards-1', columnId: 'column-1', title: 'title of card 10', cover: null,
               description: 'test car',
               date:'2023-10-10',
+              status: 'doing',
               labels: [
                 {
                   title: 'abcabc',
@@ -358,82 +368,22 @@ const dataNotifications = [
   {
     id: '1',
     content: 'abc đã thêm bạn vào',
-    type: true
+    type: ''
   },
   {
     id: '2',
     content: 'abc đã thêm bạn vào',
-    type: false
+    type: 'da dong y'
   },
   {
     id: '3',
     content: 'abc đã thêm bạn vào',
-    type: false
+    type: 'da tu choi'
   },
   {
     id: '4',
     content: 'abc đã thêm bạn vào',
-    type: true
-  },
-  {
-    id: '5',
-    content: 'abc đã thêm bạn vào',
-    type: false
-  },
-  {
-    id: '6',
-    content: 'abc đã thêm bạn vào',
-    type: true
-  },
-  {
-    id: '7',
-    content: 'abc đã thêm bạn vào',
-    type: true
-  },
-  {
-    id: '8',
-    content: 'abc đã thêm bạn vào',
-    type: true
-  },
-  {
-    id: '1',
-    content: 'abc đã thêm bạn vào',
-    type: true
-  },
-  {
-    id: '2',
-    content: 'abc đã thêm bạn vào',
-    type: false
-  },
-  {
-    id: '3',
-    content: 'abc đã thêm bạn vào',
-    type: false
-  },
-  {
-    id: '4',
-    content: 'abc đã thêm bạn vào',
-    type: true
-  },
-  {
-    id: '5',
-    content: 'abc đã thêm bạn vào',
-    type: false
-  },
-  {
-    id: '6',
-    content: 'abc đã thêm bạn vào',
-    type: true
-  },
-  {
-    id: '7',
-    content: 'abc đã thêm bạn vào',
-    type: true
-  },
-  {
-    id: '8',
-    content: 'abc đã thêm bạn vào',
-    type: true
+    type: ''
   }
 ]
 

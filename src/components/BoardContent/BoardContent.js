@@ -2,17 +2,20 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { isEmpty } from 'lodash'
 import { Container as BootstrapContainer, Row, Col, Form, Button } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom'
 
 import BoardBar from 'components/BoardBar/BoardBar'
 import Column from 'components/Column/Column'
 import { mapOrder } from 'utilities/sorts'
 import { initialData } from 'actions/initialData'
 import { applyDrag } from 'utilities/dragDrop'
-// import { fetchBoardDetails, createNewColumn } from 'actions/APIcall'
+import { fetchBoardDetails, createNewColumn } from 'actions/APIcall/APIBoard'
 
 import './BoardContent.scss'
 
 function BoardContent() {
+  const loca = useLocation()
+  const idBoard = loca.state.id
   const [board, setBoard] = useState({})
   const [columns, setColumns] = useState({})
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
@@ -29,16 +32,16 @@ function BoardContent() {
 
   useEffect(() => {
     const boardFromDB = initialData.boards.find(board => board.id === 'board-1')
-    // const boardId = 'abcxyz'
-    // fetchBoardDetails(boardId).then(board => {
-    //   setBoard(board)
-    //   setColumns(mapOrder(board.columns, board.columnOrder, '_id'))
-    // })
     if (boardFromDB) {
       setBoard(boardFromDB)
       setColumns(mapOrder(boardFromDB.columns, boardFromDB.columnOrder, 'id'))
     }
-  }, [])
+    // API
+    fetchBoardDetails(idBoard).then(board => {
+      setBoard(board)
+      setColumns(mapOrder(board.columns, board.columnOrder, 'id'))
+    })
+  }, [idBoard])
 
   useEffect(() => {
     if (newColumnInputRef && newColumnInputRef.current) {
@@ -60,7 +63,6 @@ function BoardContent() {
     let newBoard = { ...board }
     newBoard.columnOrder = newcolumns.map(c => c.id)
     newBoard.columns = newcolumns
-
     setColumns(newcolumns)
     setBoard(newBoard)
   }
@@ -85,9 +87,6 @@ function BoardContent() {
     }
 
     let newColumnToAdd = {
-      // boardId: board._id,
-      // title: newColumnTitle.trim()
-
       id: Math.random().toString(36).substring(2, 5),
       boardId: board.id,
       title: newColumnTitle.trim(),
@@ -95,19 +94,19 @@ function BoardContent() {
       cards: []
     }
 
-    // createNewColumn(newColumnToAdd).then(column => {
-    //   let newcolumns = [...columns]
-    //   newcolumns.push(column)
+    createNewColumn(newColumnToAdd).then(column => {
+      let newcolumns = [...columns]
+      newcolumns.push(column)
 
-    //   let newBoard = { ...board }
-    //   newBoard.columnOrder = newcolumns.map(c => c._id)
-    //   newBoard.columns = newcolumns
+      let newBoard = { ...board }
+      newBoard.columnOrder = newcolumns.map(c => c._id)
+      newBoard.columns = newcolumns
 
-    //   setColumns(newcolumns)
-    //   setBoard(newBoard)
-    //   setNewColumnTitle('')
-    //   clickOpenNewColumnForm()
-    // })
+      setColumns(newcolumns)
+      setBoard(newBoard)
+      setNewColumnTitle('')
+      clickOpenNewColumnForm()
+    })
 
     let newcolumns = [...columns]
     newcolumns.push(newColumnToAdd)
@@ -156,8 +155,9 @@ function BoardContent() {
   return (
     <div style={{ backgroundColor: board.colorBoard }}>
       <BoardBar
-        onUpdateTitleBoard={onUpdateTitleBoard}
         boardTitle={board.title}
+        idBoard={board.id}
+        onUpdateTitleBoard={onUpdateTitleBoard}
         updateColorBoard={onUpdateColorBoard}
       />
       <div className="board-content">
@@ -175,6 +175,7 @@ function BoardContent() {
           {columns.map((column, index) => (
             <Draggable key={index} >
               <Column
+                idBoard={board.id}
                 column={column}
                 onCardDrop={onCardDrop}
                 onUpdateColumnState={onUpdateColumnState}

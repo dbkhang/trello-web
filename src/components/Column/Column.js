@@ -1,24 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { Dropdown, Form, Button } from 'react-bootstrap'
-// import { cloneDeep } from 'lodash'
 
 import Card from 'components/Card/Card'
 import { mapOrder } from 'utilities/sorts'
-import ConfirmModal from 'components/Common/ConfirmModal'
 import CardInfo from '../CardInfo/CardInfo'
-import { MODAL_ACATION_CONFIRM } from 'utilities/constants'
+import { createNewCard, updateTitleColumn, removeColumnAPI } from 'actions/APIcall/APIColumn'
 // import { createNewCard, updateColumn } from 'actions/APIcall'
 
 import './Column.scss'
 
 function Column(props) {
-  const { column, onCardDrop, onUpdateColumnState } = props
+  const { idBoard, column, onCardDrop, onUpdateColumnState } = props
   const cards = mapOrder(column.cards, column.cardOrder, 'id')
   // const [cards, setCards] = useState(mapOrder(column.cards, column.cardOrder, 'id'))
   const [columnState, setColumnState] = useState(column)
-  const [showConfirmModal, setShowConfirmModal] = useState(false)
-  const toggleShowConfirmModal = () => setShowConfirmModal(!showConfirmModal)
+  // const [showConfirmModal, setShowConfirmModal] = useState(false)
+  // const toggleShowConfirmModal = () => setShowConfirmModal(!showConfirmModal)
   const [columnTitle, setColumnTitle] = useState('')
   const handleColumnTitleChange = (e) => setColumnTitle(e.target.value)
 
@@ -46,18 +44,25 @@ function Column(props) {
     }
   }, [openNewCardForm])
 
-  const onConfirmModal = (type) => {
-    if (type === MODAL_ACATION_CONFIRM) {
+  const removeColumn = () => {
+    console.log('aaaa')
+    const data = {
+      idBoard : idBoard,
+      idColumn: column.id
+    }
+    removeColumnAPI(data).then(rep => {
       const newColumn = {
         ...column,
         _destroy: true
       }
-      // updateColumn(newColumn._id, newColumn).then(updateColumn => {
-      //   onUpdateColumnState(updateColumn)
-      // })
       onUpdateColumnState(newColumn)
+    }).catch(error => console.log(error))
+
+    const newColumn = {
+      ...column,
+      _destroy: true
     }
-    toggleShowConfirmModal()
+    onUpdateColumnState(newColumn)
   }
 
   const selectAllInlineText = (e) => {
@@ -66,17 +71,19 @@ function Column(props) {
   }
 
   const handleColumnTitleBlur = () => {
+    if (columnTitle !== column.title) {
+      updateTitleColumn(column.id, columnTitle).then(newTitle => {
+        const newColumn = {
+          ...column,
+          title: newTitle
+        }
+        onUpdateColumnState(newColumn)
+      }).catch(error => console.log(error))
+    }
     const newColumn = {
       ...column,
       title: columnTitle
     }
-    // Call API update column
-    // if (columnTitle !== column.title) {
-    //   updateColumn(newColumn._id, newColumn).then(updateColumn => {
-    //     updateColumn.cards = newColumn.cards
-    //     onUpdateColumnState(updateColumn)
-    //   })
-    // }
     onUpdateColumnState(newColumn)
   }
 
@@ -101,23 +108,24 @@ function Column(props) {
       labels: [],
       tasks: [],
       description: '',
-      date: ''
+      date: '',
+      status: 'doing'
     }
 
-    // createNewCard(newCardToAdd).then(card => {
-    //   let newColumn = cloneDeep(column)
-    //   newColumn.cards.push(card)
-    //   newColumn.cardOrder.push(newCardToAdd._id)
+    createNewCard(newCardToAdd).then(card => {
+      let newColumn = column
+      newColumn.cards.push(card)
+      newColumn.cardOrder.push(newCardToAdd.id)
 
-    //   onUpdateColumnState(newColumn)
-    //   setNewCardTitle('')
-    //   clickOpenNewCardForm()
-    // })
-    // let newColumn = cloneDeep(column)
+      onUpdateColumnState(newColumn)
+      setNewCardTitle('')
+      clickOpenNewCardForm()
+    }).catch(error => console.log(error))
+
+
     let newColumn = column
     newColumn.cards.push(newCardToAdd)
     newColumn.cardOrder.push(newCardToAdd.id)
-    // console.log(newColumn.cardOrder)
 
     onUpdateColumnState(newColumn)
     setNewCardTitle('')
@@ -126,6 +134,15 @@ function Column(props) {
 
   const updateCard = (cardUpdate) => {
     let newCards = columnState.cards
+
+    const cardIdToUpdate = cardUpdate.id
+    const cardIndexToUpdate = newCards.findIndex(i => i.id === cardIdToUpdate)
+    if (cardUpdate._destroy) {
+      newCards.splice(cardIndexToUpdate, 1)
+    } else {
+      newCards.splice(cardIndexToUpdate, 1, cardUpdate)
+    }
+
     const index = newCards.findIndex((item) => item.id === cardUpdate.id)
     newCards[index] = cardUpdate
     setColumnState({ ...columnState, cards: newCards })
@@ -161,10 +178,8 @@ function Column(props) {
               <Dropdown.Toggle id="dropdown-basic" size="sm" className="dropdown-btn" />
 
               <Dropdown.Menu>
-                <Dropdown.Item>Add card...</Dropdown.Item>
-                <Dropdown.Item onClick={toggleShowConfirmModal}>Remove column...</Dropdown.Item>
-                <Dropdown.Item>Move all cards in this column...</Dropdown.Item>
-                <Dropdown.Item>Archive all cards in this column...</Dropdown.Item>
+                <Dropdown.Item onClick={clickOpenNewCardForm}>Add card...</Dropdown.Item>
+                <Dropdown.Item onClick={removeColumn}>Remove column...</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -226,13 +241,6 @@ function Column(props) {
           </div>
           }
         </footer>
-
-        <ConfirmModal
-          show={showConfirmModal}
-          onAction={onConfirmModal}
-          title="Remove colum"
-          content={`Are you sure you want to remove <strong>${column.title}</strong>.</br> All related cards will also be romove!`}
-        />
       </div>
       {showCardInfo && (
         <CardInfo
