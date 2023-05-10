@@ -2,20 +2,20 @@ import React from 'react'
 
 import './InfoMember.scss'
 
-function InfoMemberNoBtn() {
+function InfoMemberNoBtn(props) {
 
   return (
-    <div className="container-infomember">
+    <div className="container-infomember-nobtn">
       <div className="main-infomember">
         <div className="member-avatar">
-          <img src="https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg"
+          <img src={props.image}
             alt="avatar-user"
             title="trello-avatar"
           />
         </div>
         <div className="member-user">
-          <span className="member-user-name">ten</span>
-          <span className="member-user-email">email</span>
+          <span className="member-user-name">{props.userName}</span>
+          <span className="member-user-email">{props.email}</span>
         </div>
       </div>
     </div>

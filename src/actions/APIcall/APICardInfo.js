@@ -70,3 +70,32 @@ export const APIcheckDate = async (data) => {
   return request.data
 }
 
+export const APIinviteMemberCard = async (data) => {
+  const request = await axios.post('http://localhost:3000', data, {
+    headers: {
+      'Authorization': localStorage.getItem('accessToken'),
+      'Content-Type': 'application/json'
+    }
+  })
+  return request.data
+}
+
+export const APIigetAllComment = async (data) => {
+  const request = await axios.post('http://localhost:3000', data, {
+    headers: {
+      'Authorization': localStorage.getItem('accessToken'),
+      'Content-Type': 'application/json'
+    }
+  })
+  return request.data
+}
+
+export const APIicreateComment = async (data) => {
+  const request = await axios.post('http://localhost:3000', data, {
+    headers: {
+      'Authorization': localStorage.getItem('accessToken'),
+      'Content-Type': 'application/json'
+    }
+  })
+  return request.data
+}

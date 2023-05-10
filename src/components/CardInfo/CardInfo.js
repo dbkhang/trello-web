@@ -15,7 +15,8 @@ import { APIupdateTitle,
   APIremoveTask,
   APIupdateTask,
   APIupdateDate,
-  APIcheckDate
+  APIcheckDate,
+  APIinviteMemberCard
 } from 'actions/APIcall/APICardInfo'
 
 function CardInfo(props) {
@@ -41,6 +42,8 @@ function CardInfo(props) {
   const [complete, setComplete] = useState(false)
   const [doing, setDoing] = useState(true)
   const [overTime, setOverTime] = useState(false)
+  const [idUser, setIdUser] = useState()
+  const [dataUser, setDataUser] = useState()
 
   const updateTitle = (newTitle) => {
     // API updateTitle
@@ -290,6 +293,19 @@ function CardInfo(props) {
 
   const inviteMemberCard = () => {
     if (searchMember !== '') {
+      // API
+      const data = {
+        boardId: cardInfos.boardsId,
+        columnId: cardInfos.columnId,
+        cardId: cardInfos.id,
+        idUser: idUser
+      }
+      APIcheckDate(data).then(dataUser => {
+        setShowInvite(!showInvite)
+        setSearchMember('')
+        setDataUser(dataUser)
+      }).catch(error => console.log(error))
+      // ////
       setShowInvite(!showInvite)
       setSearchMember('')
     }
@@ -345,7 +361,12 @@ function CardInfo(props) {
             <div className="invite-member">
               {!showInvite &&
                 <div className="members-container">
-                  <InfoMemberNoBtn />
+                  <InfoMemberNoBtn
+                    userName={dataUser.userName}
+                    email={dataUser.email}
+                    image={dataUser.image}
+                  />
+                  <i className="fa fa-pencil-square-o" onClick={() => setShowInvite(!showInvite)} />
                 </div>
               }
               {showInvite &&
@@ -358,7 +379,10 @@ function CardInfo(props) {
                         <div
                           key={index}
                           className="list-member-show"
-                          onClick={() => setSearchMember(item.title)}
+                          onClick={() => {
+                            setIdUser(item.id)
+                            setSearchMember(item.title)
+                          }}
                         >{ item.title }</div>
                       ))}
                     </div>
@@ -508,7 +532,11 @@ function CardInfo(props) {
             onSubmit={addTask}
           />
         </div>
-        <Comment />
+        <Comment
+          boardId={cardInfos.boardsId}
+          columnId={cardInfos.columnId}
+          cardId={cardInfos.id}
+        />
       </div>
     </ModalCardInfo>
   )

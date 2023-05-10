@@ -44,3 +44,33 @@
         }
     }
 }
+
+.container-infomember-nobtn {
+    display: flex;
+    justify-content: space-between;
+    .main-infomember {
+        display: flex;
+        height: 60px;
+        padding-top: 10px;
+        padding-left: 10px;
+        .member-avatar img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50px;
+        }
+    
+        .member-user {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+    
+            .member-user-name {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            .member-user-email {
+                font-size: 14px;
+            }
+        }
+    }
+}

@@ -4,6 +4,7 @@ import './Card.scss'
 
 function Card(props) {
   const { card, dataCardInfo } = props
+  console.log(card)
   const formatDate = (value) => {
     if (!value) return ''
     const date = new Date(value)
@@ -47,10 +48,14 @@ function Card(props) {
 
   return (
     <>
-      <div
-        className="card-item"
-        onClick={() => dataCardInfo(card)}
-      >
+      <div className="card-item" onClick={() => dataCardInfo(card)} >
+        <div className="card-member">
+          <img src={card.imageUsername}
+            alt="avatar-user"
+            title="trello-avatar"
+          />
+          <span>{card.userName}</span>
+        </div>
         <div className="header-card">
           <div className="card_title">{card.title}</div>
         </div>
@@ -78,7 +83,6 @@ function Card(props) {
             </p>
           )}
         </div>
-        {/* {card.title} */}
       </div>
     </>
   )
