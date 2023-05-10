@@ -19,6 +19,7 @@ function TopBar(props) {
     searchAPI(searchText).then(data => {
       setListBoard(data)
     }).catch(error => console.log(error))
+    // ////////////////////////////////
     // const result = [
     //   {
     //     title: 'bac',
