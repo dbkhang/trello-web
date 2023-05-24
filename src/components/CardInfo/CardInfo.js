@@ -213,6 +213,28 @@ function CardInfo(props) {
     })
   }
 
+  const colorBgDate = () => {
+    let a = values.status
+    if ( a === 'over time') {
+      return {
+        background: 'red',
+        color: 'white'
+      }
+    } else {
+      if ( a === 'complete') {
+        return {
+          background: '#dffcf0',
+          color: '#4fcc25'
+        }
+      } else {
+        return {
+          background: '#f8f8f8',
+          color: '#000'
+        }
+      }
+    }
+  }
+
   const updateDate = (dateUp) => {
     if (!dateUp) return
     if (values.status === 'over time' || values.status === 'complete') return
@@ -453,10 +475,16 @@ function CardInfo(props) {
                 />
               }
               {complete &&
-                <span>Complete</span>
+                <span
+                  className='color-date'
+                  style={{ backgroundColor: colorBgDate().background, color: colorBgDate().color }}
+                >Complete</span>
               }
               {overTime &&
-                <span>Over Time</span>
+                <span
+                  className='color-date'
+                  style={{ backgroundColor: colorBgDate().background, color: colorBgDate().color }}
+                >Over Time</span>
               }
             </span>
           </div>

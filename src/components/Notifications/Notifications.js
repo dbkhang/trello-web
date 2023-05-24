@@ -2,17 +2,11 @@ import React, { useState, useEffect } from 'react'
 
 import './Notifications.scss'
 import NotificationChildren from './NotificationChildren'
-import { APIgetNotifications } from 'actions/APIcall/APINotifications'
 import { dataNotifications } from 'actions/initialData'
 
 function Notifications(props) {
   const [notifications, setNotifications] = useState(dataNotifications)
 
-  useEffect(() => {
-    APIgetNotifications().then(data => {
-      // setNotifications(data)
-    }).catch(error => console.log(error))
-  }, [])
 
   return (
     <nav className="notifications-wrapper">
@@ -22,6 +16,7 @@ function Notifications(props) {
           <h4>Notifications</h4>
         </div>
         <div className="notifications-container">
+          {/* thay notifications = props.data */}
           {notifications.map((item, index) => (
             <NotificationChildren
               key={index}

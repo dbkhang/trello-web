@@ -4,7 +4,6 @@ import './Card.scss'
 
 function Card(props) {
   const { card, dataCardInfo } = props
-  console.log(card)
   const formatDate = (value) => {
     if (!value) return ''
     const date = new Date(value)
@@ -46,6 +45,27 @@ function Card(props) {
     }
   }
 
+  const colorDate = () => {
+    let a = card.status
+    if ( a === 'over time') {
+      return {
+        background: 'red',
+        color: 'white'
+      }
+    } else {
+      if ( a === 'complete') {
+        return {
+          background: '#dffcf0',
+          color: '#4fcc25'
+        }
+      } else {
+        return {
+          background: '#f8f8f8',
+          color: '#000'
+        }
+      }
+    }
+  }
   return (
     <>
       <div className="card-item" onClick={() => dataCardInfo(card)} >
@@ -70,7 +90,7 @@ function Card(props) {
         </div> */}
         <div className="card_footer">
           {card.date && (
-            <p className="card_footer_item">
+            <p className="card_footer_item" style={{ backgroundColor: colorDate().background, color: colorDate().color }}>
               {/* <Clock className="card_footer_icon" /> */}
               <i className="fa fa-clock-o" aria-hidden="true" />
               {formatDate(card.date)}

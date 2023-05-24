@@ -18,6 +18,7 @@ function Home() {
     }).catch(error => console.log(error))
   }, [])
 
+
   const addBoard = (titleBoard) => {
     const newBoardAdd = {
       id: Date.now() + Math.random() * 2,
@@ -41,7 +42,7 @@ function Home() {
   }
 
   return (
-    <div>
+    <div className="container__home">
       <TopBar
         data={dataUser} //sửa thành userData
         addBoard={addeedBoard}

@@ -10,7 +10,7 @@ export const createNewCard = async (data) => {
   return request.data
 }
 
-export const updateTitleColumn = async (id, data) => {
+export const updateTitleColumn = async (data) => {
   const request = await axios.put('http://localhost:3000/', data, {
     headers: {
       'Authorization': localStorage.getItem('accessToken'),
@@ -29,3 +29,4 @@ export const removeColumnAPI = async (data) => {
   })
   return request.data
 }
+

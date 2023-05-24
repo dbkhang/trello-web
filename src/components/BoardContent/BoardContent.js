@@ -9,7 +9,13 @@ import Column from 'components/Column/Column'
 import { mapOrder } from 'utilities/sorts'
 import { initialData } from 'actions/initialData'
 import { applyDrag } from 'utilities/dragDrop'
-import { fetchBoardDetails, createNewColumn } from 'actions/APIcall/APIBoard'
+import {
+  fetchBoardDetails,
+  createNewColumn,
+  fetchupdateBoard,
+  updateColumnAPI,
+  updateCardAPI
+} from 'actions/APIcall/APIBoard'
 
 import './BoardContent.scss'
 
@@ -31,6 +37,7 @@ function BoardContent() {
   const onNewTitle = (e) => setNewColumnTitle(e.target.value)
 
   useEffect(() => {
+    console.log(idBoard);
     const boardFromDB = initialData.boards.find(board => board.id === 'board-1')
     if (boardFromDB) {
       setBoard(boardFromDB)
@@ -40,7 +47,7 @@ function BoardContent() {
     fetchBoardDetails(idBoard).then(board => {
       setBoard(board)
       setColumns(mapOrder(board.columns, board.columnOrder, 'id'))
-    })
+    }).catch(error => console.log(error))
   }, [idBoard])
 
   useEffect(() => {
@@ -63,6 +70,17 @@ function BoardContent() {
     let newBoard = { ...board }
     newBoard.columnOrder = newcolumns.map(c => c.id)
     newBoard.columns = newcolumns
+
+    // API di chuyen cot
+    const data = {
+      boardId: newBoard.id,
+      columnOrder: newBoard.columnOrder
+    }
+    fetchupdateBoard(data).then(rep => {
+      setColumns(newcolumns)
+      setBoard(newBoard)
+    }).catch(error => console.log(error))
+
     setColumns(newcolumns)
     setBoard(newBoard)
   }
@@ -70,13 +88,26 @@ function BoardContent() {
   const onCardDrop = (columnId, dropResult) => {
     if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
       let newcolumns = [...columns]
-
       let currenColumn = newcolumns.find(c => c.id === columnId)
 
       currenColumn.cards = applyDrag(currenColumn.cards, dropResult)
       currenColumn.cardOrder = currenColumn.cards.map(i => i.id)
-
       setColumns(newcolumns)
+
+      if (dropResult.removedIndex !== null && dropResult.addedIndex !== null) {
+
+        // API di chuyen card
+        updateColumnAPI(currenColumn.id, currenColumn).catch(() => setColumns(columns))
+      } else {
+        // API di chuyen card
+        updateColumnAPI(currenColumn.id, currenColumn).catch(() => setColumns(columns))
+        if (dropResult.addedIndex !== null) {
+          let currenCard = dropResult.payload
+          currenCard.columnId = currenColumn.id
+          updateCardAPI(currenCard.id, currenCard)
+        }
+        // updateColumnAPI(data).catch(() => setColumns(columns))
+      }
     }
   }
 

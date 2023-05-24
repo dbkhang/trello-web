@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-export const APIgetNotifications = async (data) => {
-  const request = await axios.get('http://localhost:3000', data, {
+export const APIgetNotifications = async () => {
+  const request = await axios.get('http://localhost:3000', {
     headers: {
       'Authorization': localStorage.getItem('accessToken'),
       'Content-Type': 'application/json'

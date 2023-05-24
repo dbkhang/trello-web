@@ -13,6 +13,9 @@ function SignUp() {
 
   const handleSignUp = async (event) => {
     event.preventDefault()
+    if (email === '' || password === '' || userName === '') {
+      return setError('Hãy nhập đẩy đủ thông tin')
+    }
     let newAccount = {
       email: email,
       userName: userName,

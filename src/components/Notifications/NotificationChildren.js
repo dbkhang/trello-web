@@ -12,17 +12,18 @@ function NotificationChildren(props) {
       type: true
     }
     // API
-    // APIupdateNotifications(data).then(data => {
-    //   setShowBtn(true)
-    // }).catch(error => console.log(error))
+    APIupdateNotifications(data).then(data => {
+      setShowBtn(true)
+      props.addBoard(data)
+    }).catch(error => console.log(error))
     // /////////////////
-    const databoard = {
-      id: '5',
-      title: 'them 1',
-      color: '#333'
-    }
-    setShowBtn(true)
-    props.addBoard(databoard)
+    // const databoard = {
+    //   id: '5',
+    //   title: 'them 1',
+    //   color: '#333'
+    // }
+    // setShowBtn(true)
+    // props.addBoard(databoard)
 
   }
   const handelShowBtnNo = () => {

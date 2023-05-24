@@ -45,11 +45,11 @@ function Column(props) {
   }, [openNewCardForm])
 
   const removeColumn = () => {
-    console.log('aaaa')
     const data = {
       idBoard : idBoard,
       idColumn: column.id
     }
+    // API
     removeColumnAPI(data).then(rep => {
       const newColumn = {
         ...column,
@@ -57,7 +57,7 @@ function Column(props) {
       }
       onUpdateColumnState(newColumn)
     }).catch(error => console.log(error))
-
+    // /////////////////////////////
     const newColumn = {
       ...column,
       _destroy: true
@@ -72,7 +72,12 @@ function Column(props) {
 
   const handleColumnTitleBlur = () => {
     if (columnTitle !== column.title) {
-      updateTitleColumn(column.id, columnTitle).then(newTitle => {
+      const data = {
+        boardId: column.boardsId,
+        columnID: column.id,
+        title: columnTitle
+      }
+      updateTitleColumn(data).then(newTitle => {
         const newColumn = {
           ...column,
           title: newTitle
