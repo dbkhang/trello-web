@@ -1,0 +1,106 @@
+.edit-container {
+    height: 94vh;
+    display: flex;
+    justify-content: center;
+
+    .edit-main {
+        width: 600px;
+        h3 {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .edit-information-account {
+            padding-left: 20px;
+            padding-top: 40px;
+            margin: 0;
+            background-color: antiquewhite;
+            height: 220px;
+            border: 1px solid black;
+            border-radius: 5px;
+            display: block;
+            .edit-information-account-main {
+                display: flex;
+                .change-avatar {
+                    button {
+                        padding: 0;
+                        border: none;
+                        background-color: transparent;
+                        img {
+                            width: 80px;
+                            height: 80px;
+                            border-radius: 160px;
+                        }
+                    }
+                }
+                .change-name-user-container {
+                    margin-left: 20px;
+                    margin-top: 10px;
+                    .text-name-user {
+                       font-size: 18px; 
+                       i {
+                        margin-left: 10px;
+                       }
+                    }
+                    input {
+                        font-size: 18px;
+                        background-color: transparent;
+                        border: none;
+                        &:focus {
+                            box-shadow: 0 0 0 1px black;
+                        }
+                    }
+                    .email-user {
+                        margin-left: 4px;
+                    }
+                }
+            }
+            .btn-save-edit {
+                height: 30px;
+                width: 80px;
+                margin-top: 20px;
+                border-radius: 5px;
+                border: 1px solid #adb5bd;
+                background-color: white;
+                &:hover {
+                    background-color: rgba($color: #adb5bd, $alpha: 0.3);
+                }
+            }
+            
+        }
+        .change-password {
+            width: 600px;
+            height: 300px;
+            background-color: antiquewhite;
+            position: relative;
+            border-radius: 5px;
+            border: 1px solid black;
+            div {
+                margin-left: 20px;
+                margin-bottom: 10px;
+                padding-top: 20px;
+                &.err-change-password {
+                    position: absolute;
+                    color: red;
+                    top: 155px;
+                    font-size: 16px;
+                }
+                label {
+                    width: 115px;
+                }
+            }
+            button {
+                width: 140px;
+                height: 40px;
+                margin-left: 20px;
+                margin-top: 40px;
+                border-radius: 5px;
+                border: 1px solid #adb5bd;
+                background-color: white;
+                &:hover {
+                    background-color: rgba($color: #adb5bd, $alpha: 0.3);
+                }
+            }
+        }
+    }
+}

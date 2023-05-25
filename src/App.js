@@ -1,17 +1,28 @@
 import React from 'react'
 import './App.scss'
-
-import TopBar from 'components/TopBar/TopBar'
-import BoardBar from 'components/BoardBar/BoardBar'
-import BoarContent from 'components/BoardContent/BoardContent'
+import { RoutesConfig } from 'pages/routes'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
-    <div className="trello-web">
-      <TopBar />
-      <BoardBar />
-      <BoarContent />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          {RoutesConfig.map((route, index) => {
+            const Page = route.component
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Page />
+                }
+              />
+            )
+          })}
+        </Routes>
+      </div>
+    </Router>
   )
 }
 

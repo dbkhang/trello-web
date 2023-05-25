@@ -1,0 +1,313 @@
+.cardinfo {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 550px;
+    width: fit-content;
+    max-width: 650px;
+    height: fit-content;
+    position: relative;
+    .icon-close {
+      position: absolute;
+      right: 0px;
+      top: 5px;
+      width: 40px;
+      height: 40px;
+      font-size: 30px;
+      // padding: 5px;
+      border-radius: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+      }
+    }
+  }
+  
+  .cardinfo_box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    // gap: 10px;
+  }
+  
+  .cardinfo_box_title {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    
+  }
+  .check-box-date {
+    margin-left: 20px;
+    input {
+      width: 18px;
+      height: 18px;
+      outline: none;
+      cursor: pointer;
+      }
+  }
+  
+  .cardinfo_box_title p {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .cardinfo_box_title svg {
+    height: 18px;
+    width: 18px;
+  }
+  
+  .cardinfo_box_labels {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .cardinfo_box_labels label {
+    border-radius: 40px;
+    background-color: gray;
+    color: #fff;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .cardinfo_box_labels label svg {
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+  }
+  
+  .cardinfo_box ul {
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+    margin-left: 20px;
+  }
+  .cardinfo_box ul li {
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .cardinfo_box ul .li_active {
+    box-shadow: 0 0 0 3px yellow;
+  }
+  
+  .cardinfo_box_progress-bar {
+    margin-bottom: 10px;
+    width: 100%;
+    border-radius: 30px;
+    height: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .cardinfo_box_progress {
+    height: 100%;
+    border-radius: 30px;
+    background-color: skyblue;
+    width: 0;
+    transition: 200ms;
+  }
+  
+  .cardinfo_box_task_list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .cardinfo_box_task_checkbox {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .cardinfo_box_task_checkbox input,
+  .cardinfo_box_task_checkbox svg {
+    height: 18px;
+    width: 18px;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .cardinfo_box_task_checkbox p {
+    flex: 1;
+    line-height: 18px;
+  }
+  
+  .cardinfo_box_task_checkbox .completed {
+    text-decoration-line: line-through;
+  }
+  
+  .cardinfo_box input[type="date"] {
+    width: fit-content;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1rem;
+    padding: 10px;
+  }
+  
+.member-card {
+  padding: 0;
+  background-color: transparent;
+  display: flex;
+  >* {
+    margin-right: 2px;
+  }
+}
+.members-in-card {
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+  }
+  &.members-in-card {
+    border-radius: 5px;
+    height: 31px;
+    margin-top: 10xp;
+    > div {
+      padding: 5px 5px;
+    }
+    .btn-show-list-member {
+      background-color: #dddddd;
+    }
+    .members-wrapper {
+      display: block;
+      // position: absolute;
+      width: 376px;
+      height: 640px;
+      top: 42px;
+      left: -52px;
+      background: rgb(255, 255, 255);
+      border-radius: 8px;
+      box-shadow: rgb(0 0 0 / 12%) 0px -4px 32px;
+      transition: all 200ms linear 0s;
+      // z-index: 1000;
+      .members-main {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      // .members-container {
+      //   display: flex;
+      //   text-align: left;
+      //   height: 560px;
+      //   font-size: 1rem;
+      //   color: black;
+      //   overflow-y: auto;
+      //   &::-webkit-scrollbar {
+      //     -webkit-appearance: none;
+      //   }
+      //   &::-webkit-scrollbar:horizontal {
+      //     height: 5px;
+      //   }
+      //   &::-webkit-scrollbar-thumb {
+      //     background-color: rgba(240, 240, 240, 0.9);
+      //     border-radius: 8px;
+      //   }
+      // }
+    } 
+  }
+}
+
+.members-container {
+  display: flex;
+  // text-align: center;
+  // justify-content: center;
+  i {
+    font-size: 25px;
+    margin-left: 20px;
+    margin-top: 17px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.invite-member {
+  // padding: 5px 8px;
+  
+  
+  // margin-left: 10px;
+  border-radius: 3px;
+  .btn-show-invite {
+    background-color: #dddddd;
+    height: 31px;
+    width: 50px;
+    text-align: center;
+    padding-top: 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .show-invite {
+    display: flex;
+    input {
+      border: none;
+      height: 30px;
+      border: 1px solid #333;
+      padding-left: 5px;
+    }
+    button {
+      height: 31px;
+      border: none;
+      border-radius: 3px;
+      margin-left: 10px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.4);
+      }
+    }
+    i {
+      font-size: 30px;
+      margin-left: 5px;
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}
+
+.search-member {
+  // position: absolute;
+  text-align: left;
+  max-height: 300px;
+  width: 243px;
+  font-size: 0.9rem;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #333;
+  border-radius: 10px;
+  transform: translate(10px, 0px);
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
+  &::-webkit-scrollbar:horizontal {
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(240, 240, 240, 0.9);
+    border-radius: 8px;
+  }
+  .list-member-show {
+    display: flex;
+    height: 40px;
+    margin: 10px;
+    padding-left: 10px;
+    padding-top: 7px;
+    color: black;
+    text-decoration: none;
+    &:hover {
+      background-color: antiquewhite;
+    }
+  }
+}
+
+.color-date {
+  border-radius: 8px;
+}

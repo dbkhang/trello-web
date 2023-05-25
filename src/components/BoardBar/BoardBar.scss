@@ -1,12 +1,242 @@
 @import '_setting.scss';
 
-$board-bg-color : #0079bf;
+$board-bg-color : #63bb46;
 
 .navbar-board {
     height: $navbar-board-height;
-    background-color: $board-bg-color;
-    font-size: 1.1rem;
-    padding-left: 10px;
+    background-color: rgba(#4fcc25, 0.7);
+    padding-left: 0 20px;
     display: flex;
     align-items: center;
+    color: aliceblue;
+    border-bottom: 1px solid black;
+    .board-info {
+      margin-left: 13px;
+      display: inline-flex;
+      height: 100%;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      div.divider {
+        padding: 0px 8px; 
+        &::before {
+          contain: "|";
+          color: black;
+        }
+      }
+      .item {
+        // padding: 6px 10px;
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+        
+        &:hover {
+          cursor: pointer;
+          background-color: rgba(255, 255, 255, 0.4);
+        }
+        &.member-board {
+          padding: 0;
+          background-color: transparent;
+          display: flex;
+          justify-content: center;
+          >* {
+            margin-right: 2px;
+          }
+        }
+        .more-members {
+          // padding: 5px 8px;
+          background-color: rgba(255, 255, 255, 0.3);
+          position: relative;
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+          }
+          &.more-members {
+            border-radius: 5px;
+            height: 31px;
+            margin-top: 10xp;
+            > div {
+              padding: 5px 5px;
+            }
+            .members-wrapper {
+              display: block;
+              position: absolute;
+              width: 376px;
+              height: 640px;
+              top: 42px;
+              left: -52px;
+              background: rgb(255, 255, 255);
+              border-radius: 8px;
+              box-shadow: rgb(0 0 0 / 12%) 0px -4px 32px;
+              transition: all 200ms linear 0s;
+              z-index: 1000;
+
+              .members-arrow-top {
+                padding: 0;
+                border-top: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid rgb(255, 255, 255);
+                border-left: 10px solid transparent;
+                width: 0; 
+                height:0;
+                position: absolute;
+                top: -20px;
+                right: 280px;
+                background-color: transparent;
+              }
+              .members-main {
+                display: flex;
+                flex-direction: column;
+              }
+            
+              .members-top {
+                padding-top: 16px;
+                flex: 0 0 auto;
+                padding-left: 16px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+              }
+              
+              .members-top h3 {
+                font-weight: 700;
+                font-size: 24px;
+                line-height: 28px;
+                text-align: left;
+                color: black;
+              }
+              
+              .members-container {
+                text-align: left;
+                height: 560px;
+                font-size: 1rem;
+                color: black;
+                overflow-y: auto;
+                &::-webkit-scrollbar {
+                  -webkit-appearance: none;
+                }
+                &::-webkit-scrollbar:horizontal {
+                  height: 5px;
+                }
+                &::-webkit-scrollbar-thumb {
+                  background-color: rgba(240, 240, 240, 0.9);
+                  border-radius: 8px;
+                }
+              }
+            } 
+          }
+        }
+        .invite {
+          // padding: 5px 8px;
+          
+          
+          margin-left: 10px;
+          border-radius: 3px;
+          .btn-show-invite {
+            background-color: rgba(255, 255, 255, 0.3);
+            height: 31px;
+            width: 50px;
+            text-align: center;
+            padding-top: 5px;
+            &:hover {
+              cursor: pointer;
+            }
+          }
+          .show-invite {
+            display: flex;
+            input {
+              border: none;
+              height: 30px;
+              border: 1px solid #333;
+              padding-left: 5px;
+            }
+            button {
+              height: 31px;
+              border: none;
+              border-radius: 3px;
+              margin-left: 10px;
+              &:hover {
+                background-color: rgba(255, 255, 255, 0.4);
+              }
+            }
+            i {
+              font-size: 30px;
+              margin-left: 5px;
+              &:hover {
+                color: red;
+              }
+            }
+          }
+        }
+      }
+    }
+    .board-actions {
+      display: inline-flex;
+      height: 100%;
+      width: 25px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      position: relative;
+
+      div.item {
+        padding: 6px 10px;
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+        &:not(:first-child) {
+          margin-left: 4px;
+        }
+        &:hover {
+          cursor: pointer;
+          background-color: rgba(255, 255, 255, 0.4);
+        }
+      }
+
+      .board-actions-content {
+        height: calc(#{$navbar-board-height} + #{$board-content-height});
+        width: 400px;
+        background-color: white;
+        position: absolute;
+        top: 0px;
+        right: -20px;
+        z-index: 2000;
+        color: black;
+        .board-actions-top {
+          display: flex;
+          justify-content: space-between;
+          margin: 10px 10px 0 20px;
+          border-bottom: 1px solid black;
+
+          .icon-cancle-board-actions {
+            height: 30px;
+            width: 30px;
+            border-radius: 60px;
+            font-size: 27px;
+            text-align: center;
+        
+            
+            &:hover {
+              color: red;
+              cursor: pointer;
+            }
+          }
+        }
+        .choose-color-bg ul {
+          margin-top: 10px;
+          display: flex;
+          gap: 15px;
+          margin-left: 20px;
+        }
+        .choose-color-bg ul li {
+          list-style: none;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+        
+        .choose-color-bg ul .li_active {
+          box-shadow: 0 0 0 3px yellow;
+        }
+      }
+    }
   }
