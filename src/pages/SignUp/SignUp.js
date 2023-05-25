@@ -11,11 +11,19 @@ function SignUp() {
   const [error, setError] = useState(null)
   const history = useNavigate()
 
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email)
+  }
+
   const handleSignUp = async (event) => {
     event.preventDefault()
     if (email === '' || password === '' || userName === '') {
       return setError('Hãy nhập đẩy đủ thông tin')
     }
+    if (!isValidEmail(email)) {
+      return setError('Email sai')
+    }
+
     let newAccount = {
       email: email,
       userName: userName,
@@ -32,7 +40,7 @@ function SignUp() {
   return (
     <div className="main-signup">
       <div className="content-signup">
-        <div className="title-signup"><h2>SignUp Trello</h2></div>
+        <div className="title-signup"><h2>Đăng ký tài khoản Trello</h2></div>
         <form>
           <div className="input-signup">
             <label>Email</label>
@@ -42,14 +50,22 @@ function SignUp() {
             />
           </div>
           <div className="input-signup">
-            <label>UserName</label>
+            <label>Tên tài khoản</label>
             <input
               // placeholder="UserName"
               onChange={(event) => setUserName(event.target.value)}
             />
           </div>
           <div className="input-signup">
-            <label>Password</label>
+            <label>Mật khẩu</label>
+            <input
+              type="password"
+              // placeholder="Password"
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+          <div className="input-signup">
+            <label>Nhập lại mật khẩu</label>
             <input
               type="password"
               // placeholder="Password"
@@ -62,10 +78,10 @@ function SignUp() {
           <button
             onClick={handleSignUp}
             className="btn-signup"
-          >Create Account</button>
+          >Tạo tài khoảnt</button>
           <div className="link-signin">
-            <span> Have an account? </span>
-            <Link to="/signin" >Create an account </Link>
+            <span> Bạn đã có tài khoản? </span>
+            <Link to="/signin" >Đăng nhập </Link>
           </div>
         </div>
       </div>
