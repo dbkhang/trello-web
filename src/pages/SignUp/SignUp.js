@@ -8,6 +8,7 @@ function SignUp() {
   const [email, setEmail] = useState('')
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
+  const [rPassword, setRPassword] = useState('')
   const [error, setError] = useState(null)
   const history = useNavigate()
 
@@ -23,15 +24,22 @@ function SignUp() {
     if (!isValidEmail(email)) {
       return setError('Email sai')
     }
+    if (password !== rPassword) {
+      return setError('Mật khẩu không trùng khớp')
+    }
 
     let newAccount = {
       email: email,
       userName: userName,
-      password: password
+      password: password,
+      rpassword: rPassword
     }
     try {
-      await fetchSignUp(newAccount)
-      history.push('/')
+      const data = await fetchSignUp(newAccount)
+      if (data === '200') {
+        history.push('/signin')
+        localStorage.setItem('signup', 'ok')
+      }
     } catch (error) {
       setError(error.message)
     }
@@ -69,7 +77,7 @@ function SignUp() {
             <input
               type="password"
               // placeholder="Password"
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) => setRPassword(event.target.value)}
             />
           </div>
         </form>
