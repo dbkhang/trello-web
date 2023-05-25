@@ -31,7 +31,7 @@ function SignIn() {
   return (
     <div className="main-signin">
       <div className="content-signin">
-        <div className="title-signin"><h2>SignIn Trello</h2></div>
+        <div className="title-signin"><h2>Đăng nhập Trello</h2></div>
         <form>
           <div className="input-signin">
             <label>Email</label>
@@ -42,7 +42,7 @@ function SignIn() {
             />
           </div>
           <div className="input-signin">
-            <label>Password</label>
+            <label>Mật khẩu</label>
             <input
               type="password"
               // placeholder="Password"
@@ -55,10 +55,10 @@ function SignIn() {
           <button
             onClick={handleSignin}
             className="btn-signin"
-          >Sign in</button>
+          >Đăng nhập</button>
           <div className="link-signup">
-            <span> Don`t have an account? </span>
-            <Link to="/signup" >Create an account </Link>
+            <span>Bạn chưa có tài khoản</span>
+            <Link to="/signup" >Đăng ký tài khoản</Link>
           </div>
         </div>
       </div>
