@@ -18,15 +18,17 @@ function CardInfo(props) {
   const [showResult, setShowResult] = useState(false)
   const [listMember, setListMember] = useState([])
   const [complete, setComplete] = useState(values.complete)
-  // const [doing, setDoing] = useState(true)
   const [overTime, setOverTime] = useState(values.overTime)
-  // const [idUser, setIdUser] = useState()
-  const [dataUser, setDataUser] = useState()
-  const [showInvite, setShowInvite] = useState(dataUser != null? false:true)
+  // const [dataUser, setDataUser] = useState()
+  const [showInvite, setShowInvite] = useState(values.userName != null? false:true)
   const [showToolTip, setShowToolTip] = useState(false)
   const [textToolTip, setTextToolTip] = useState('')
   const [typeToolTip, setTypeToolTip] = useState(true)
   const [showBtnChange, setShowBtnChange] = useState(false)
+
+  useEffect(() => {
+    
+  })
 
   const updateTitle = (newTitle) => {
     // API updateTitle
@@ -300,34 +302,21 @@ function CardInfo(props) {
         setOverTime(false)
         // setColorComplete('#4fcc25')
       }
-      // else {
-      //   if (values.overTime && !values.complete) {
-      //     setComplete(false)
-      //     setOverTime(true)
-      //     setColorOverTime('red')
-      //   }
-      // }
     }
   }, [values.complete])
 
-  // useEffect(() => {
-  //   if (focusInput && focusInput.current) {
-  //     focusInput.current.focus()
-  //     focusInput.current.select()
-  //   }
-  // }, [showInvite])
 
   const inviteMemberCard = (user) => {
     setShowBtnChange(!showBtnChange)
     setValues({
       ...values,
       userName: user.userName,
-      userEmail: user.email,
-      userimage: user.image
+      userEmail: user.userEmail,
+      imageUsername: user.imageUsername
     })
     setShowInvite(!showInvite)
     setSearchMember('')
-    setDataUser(user)
+    // setDataUser(user)
 
     // if (searchMember !== '') {
     //   API
@@ -367,18 +356,18 @@ function CardInfo(props) {
       const result = [
         {
           userName: 'bac',
-          email: '1aaa',
-          image: ''
+          userEmail: '1aaa',
+          imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg'
         },
         {
           userName: 'bac',
-          email: '1aaa',
-          image: ''
+          userEmail: '1aaa',
+          imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg'
         },
         {
           userName: 'bac',
-          email: '1aaa',
-          image: ''
+          userEmail: '1aaa',
+          imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg'
         }
       ]
       setListMember(result)
@@ -428,7 +417,7 @@ function CardInfo(props) {
         </div>
         {showBtnChange &&
           <div>
-            <button onClick={updateCardInfo}>aaaa</button>
+            <button onClick={updateCardInfo}>Lưu thay đổi</button>
           </div>
         }
         <div className="cardinfo_box">
@@ -440,9 +429,9 @@ function CardInfo(props) {
               {!showInvite &&
                 <div className="members-container">
                   <InfoMemberNoBtn
-                    userName={dataUser.userName}
-                    email={dataUser.email}
-                    image={dataUser.image}
+                    userName={values.userName}
+                    email={values.userEmail}
+                    image={values.imageUsername}
                   />
                   <i className="fa fa-pencil-square-o" onClick={() => setShowInvite(!showInvite)} />
                 </div>
@@ -461,8 +450,8 @@ function CardInfo(props) {
                         >
                           <InfoMemberNoBtn
                             userName={item.userName}
-                            email={item.email}
-                            image={item.image}
+                            email={item.userEmail}
+                            image={item.imageUsername}
                           />
                         </div>
                       ))}
@@ -487,7 +476,7 @@ function CardInfo(props) {
         </div>
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
-            <p>Title</p>
+            <p>Tên thẻ</p>
           </div>
           <InputForm
             type='1'
@@ -500,7 +489,7 @@ function CardInfo(props) {
 
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
-            <p>Description</p>
+            <p>Mô tả chi tiết</p>
           </div>
           <TextareaForm
             type='1'
@@ -514,7 +503,7 @@ function CardInfo(props) {
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
             {/* <Calendar /> */}
-            <p>Date</p>
+            <p>Thời hạn hoàn thành</p>
           </div>
           <div className="carrinfo-date">
             <input
@@ -543,67 +532,13 @@ function CardInfo(props) {
                   style={{ backgroundColor: colorBgOverTime().background, color: colorBgOverTime().color }}
                 >Over Time</span>
               }
-              {/* {doing &&
-                <input
-                  type="checkbox"
-                  // defaultChecked={checkBoxDate}
-                  onClick={checkDate}
-                />
-              }
-              {complete &&
-                <span
-                  className='color-date'
-                  style={{ backgroundColor: colorBgDate().background, color: colorBgDate().color }}
-                >Complete</span>
-              }
-              {overTime &&
-                <span
-                  className='color-date'
-                  style={{ backgroundColor: colorBgDate().background, color: colorBgDate().color }}
-                >Over Time</span>
-              } */}
             </div>
           </div>
         </div>
 
-        {/* <div className="cardinfo_box">
-          <div className="cardinfo_box_title">
-            <p>Labels</p>
-          </div>
-          <div className="cardinfo_box_labels">
-            {values.labels?.map((item, index) => (
-              <label
-                key={index}
-                style={{ backgroundColor: item.colors, color: '#fff' }}
-              >
-                {item.title}
-                <i className="fa fa-times" onClick={() => removeLabel(item)} />
-              </label>
-            ))}
-          </div>
-          <ul>
-            {colors.map((item, index) => (
-              <li
-                key={index + item}
-                style={{ backgroundColor: item }}
-                className={selectedColor === item ? 'li_active' : ''}
-                onClick={() => setSelectedColor(item)}
-              />
-            ))}
-          </ul>
-          <InputForm
-            type='2'
-            text='Add Label'
-            placeholder='Enter label text'
-            onSubmit={(value) =>
-              addLabel({ colors: selectedColor, title: value })
-            }
-          />
-        </div> */}
-
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
-            <p>Tasks</p>
+            <p>Yêu cầu</p>
           </div>
           <div className="cardinfo_box_progress-bar">
             <div

@@ -65,7 +65,7 @@ function Comment(props) {
 
   return (
     <div className="wrap-comment">
-      <h3>Comment</h3>
+      <h3>Bình luận</h3>
       <div className="action-comment">
         <textarea
           className="textarea"
