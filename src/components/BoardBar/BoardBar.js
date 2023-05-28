@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap'
 
 import './BoardBar.scss'
 import InfoMember from 'components/InfoMember/InfoMember'
+import ToolTip from 'components/ToolTip/ToolTip'
 import { APIupdateTitleBoard,
   APIinviteMember,
   APIshowMember,
@@ -29,6 +30,8 @@ function BoardBar(props) {
   const [inviteMember, setInviteMember] = useState('')
   const focusInput = useRef()
   const [listMember, setListMember] = useState()
+  const [showToolTip, setShowToolTip] = useState(false)
+  const [textToolTip, setTextToolTip] = useState('')
 
   useEffect(() => {
     if (focusInput && focusInput.current) {
@@ -42,9 +45,16 @@ function BoardBar(props) {
       inviteMember: inviteMember,
       idBoard: idBoard
     }
-    APIinviteMember(data).then(ok => {
-      setShowInvite(!showInvite)
-    }).catch(error => console.log(error))
+    APIinviteMember(data).then(data => {
+      if (data.status == 200) {
+        setShowInvite(!showInvite)
+      }
+    }).catch(error => {
+      if (error.response.status !== 200) {
+        setTextToolTip('Thêm thành viên thất bại')
+        setShowToolTip(true)
+      }
+    })
     // setShowInvite(!showInvite)
   }
 
@@ -76,9 +86,16 @@ function BoardBar(props) {
 
   const deleteMember = (data) => {
     // API delete Member
-    APIdeleteMember(data).then(rep => {
-      setListMember(rep)
-    }).catch(error => console.log(error))
+    APIdeleteMember(data).then(res => {
+      if (res.response.status === 200) {
+        setListMember(res.data)
+      }
+    }).catch(error => {
+      if (error.response.status !== 200) {
+        setTextToolTip('Xoá thành viên thất bại')
+        setShowToolTip(true)
+      }
+    })
   }
 
   const saveTitleAfterEnter = (e) => {
@@ -99,15 +116,34 @@ function BoardBar(props) {
       colorBoard: color
     }
 
-    APIupdateColor(data).then(rep => {
-      props.updateColorBoard(rep)
-    }).catch(error => console.log(error))
+    APIupdateColor(data).then(res => {
+      if (res.response.status !== 200) {
+        props.updateColorBoard(res)
+      }
+    }).catch(error => {
+      if (error.response.status !== 200) {
+        setTextToolTip('Thay đổi màu thất bại')
+        setShowToolTip(true)
+      }
+    })
     setSelectedColor(color)
     props.updateColorBoard(color)
   }
 
+  const handleClose = () => {
+    setShowToolTip(false)
+    localStorage.removeItem('signup')
+  }
+
   return (
     <nav className="navbar-board" style={{ selectedColor }}>
+      {showToolTip &&
+        <ToolTip
+          type={false}
+          message={ textToolTip }
+          handleClose={handleClose}
+        />
+      }
       <div className="board-info">
         <div className="item">
           <Form.Control
@@ -128,13 +164,13 @@ function BoardBar(props) {
 
         <div className="item member-board">
           <div className="more-members" >
-            <div onClick={handleShowMember}>Members</div>
+            <div onClick={handleShowMember}>Thành viên</div>
             {showMemberBoard &&
               <nav className="members-wrapper">
                 <div className="members-arrow-top"></div>
                 <div className="members-main">
                   <div className="members-top">
-                    <h3>Members in the table</h3>
+                    <h3>Thành viên trong bảng</h3>
                   </div>
                   <div className="members-container">
                     {listMember.map((member, index) => (
@@ -155,7 +191,7 @@ function BoardBar(props) {
           <div className="invite">
             {!showInvite &&
               <div className="btn-show-invite" onClick={() => setShowInvite(!showInvite)}>
-                Invite
+                Thêm thành viên
               </div>
             }
             {showInvite &&
@@ -165,7 +201,7 @@ function BoardBar(props) {
                   value={ inviteMember }
                   onChange={(e) => setInviteMember(e.target.value)}
                 />
-                <button onClick={handleInviteMember}>Invite</button>
+                <button onClick={handleInviteMember}>Thêm</button>
                 <i className="fa fa-times" onClick={() => setShowInvite(!showInvite)} />
               </div>
             }

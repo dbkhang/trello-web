@@ -1,21 +1,57 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import './Home.scss'
+import ToolTip from 'components/ToolTip/ToolTip'
 import TopBar from 'components/TopBar/TopBar'
 import CardBoardItem from 'components/CardBoardItem/CardBoardItem'
-import { dataUser } from 'actions/initialData'
 import InputForm from 'components/InputForm/InputForm'
-import { fetchDataHome, createNewBoard } from 'actions/APIcall/APIPageHome'
+import { fetchDataUser, fetchDataListBoard, createNewBoard } from 'actions/APIcall/APIPageHome'
 
 function Home() {
-  const [userData, setUserData] = useState()
-  const [board, setBoard] = useState(dataUser.listBoard)
-
+  const [userData, setUserData] = useState({})
+  const [userListBoard, setUserListBoard] = useState([])
+  // const [board, setBoard] = useState(userListBoard)
+  const history = useNavigate()
+  const [showToolTip, setShowToolTip] = useState(false)
   useEffect(() => {
-    fetchDataHome().then(data => {
-      setUserData(data)
-      // setBoard(data.listBoard)
+    const token = localStorage.getItem('accessToken')
+    if (token !== '') {
+      // history('/signin')
+    }
+    fetchDataUser().then(res => {
+      if (res.status === 200) {
+        let data = res.data
+        setUserData(data)
+      }
     }).catch(error => console.log(error))
+
+    fetchDataListBoard().then(res => {
+      if (res.status === 200) {
+        let data = res.data
+        setUserListBoard(data)
+      }
+    }).catch(error => console.log(error))
+
+    const abc = {
+      imageUser: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
+      userName: 'aaaa',
+      userEmail: 'ccccc'
+    }
+    const ccc = [
+      {
+        id: '1',
+        title: 'board 1',
+        color: '#333'
+      },
+      {
+        id: '2',
+        title: 'board 2',
+        color: '#133'
+      }
+    ]
+    setUserData(abc)
+    setUserListBoard(ccc)
   }, [])
 
 
@@ -25,31 +61,50 @@ function Home() {
       title: titleBoard,
       color: '#333'
     }
-    createNewBoard(newBoardAdd).then(newBoardAdd => {
-      let newBoard = [...board]
-      newBoard.push(newBoardAdd)
-      setBoard(newBoard)
+    createNewBoard(newBoardAdd).then(res => {
+      if (res.status == 200) {
+        const newBoardAddRes = res.data
+        let newBoard = [...userListBoard]
+        newBoard.push(newBoardAddRes)
+        setUserListBoard(newBoard)
+        // let newBoard = [...board]
+        // newBoard.push(newBoardAddRes)
+        // setBoard(newBoard)
+      }
+    }).catch (err => {
+      if (err.response.status !== 200) {
+        setShowToolTip(true)
+      }
     })
-    let newBoard = [...board]
-    newBoard.push(newBoardAdd)
-    setBoard(newBoard)
   }
 
   const addeedBoard = (newBoardAdd) => {
-    let newBoard = [...board]
+    let newBoard = [...userListBoard]
     newBoard.push(newBoardAdd)
-    setBoard(newBoard)
+    setUserListBoard(newBoard)
+  }
+
+  const handleClose = () => {
+    setShowToolTip(false)
   }
 
   return (
     <div className="container__home">
+      {showToolTip &&
+        <ToolTip
+          type={false}
+          message={'Tạo bảng thất bại'}
+          handleClose={handleClose}
+        />
+      }
       <TopBar
-        data={dataUser} //sửa thành userData
+        user={userData}
+        data={userListBoard}
         addBoard={addeedBoard}
       />
       <div className='main-home'>
         <div className='container-home'>
-          {board.map((item, index) => (
+          {userListBoard.map((item, index) => (
             <CardBoardItem
               key={index}
               id={item.id}
@@ -63,8 +118,8 @@ function Home() {
         <div className="content-add-board">
           <InputForm
             type='2'
-            text={'Add a Board'}
-            placeholder='Enter Board'
+            text={'Tạo bảng mới'}
+            placeholder='Tên bảng'
             onSubmit={addBoard}
           />
         </div>

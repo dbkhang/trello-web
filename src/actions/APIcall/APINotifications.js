@@ -7,7 +7,7 @@ export const APIgetNotifications = async () => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIupdateNotifications = async (data) => {
@@ -17,5 +17,5 @@ export const APIupdateNotifications = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }

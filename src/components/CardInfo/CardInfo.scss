@@ -41,14 +41,27 @@
     justify-content: space-between;
     
   }
+  .carrinfo-date {
+    display: flex;
+  }
   .check-box-date {
+    display: flex;
+    align-items: center;
     margin-left: 20px;
     input {
       width: 18px;
       height: 18px;
       outline: none;
       cursor: pointer;
-      }
+    }
+    span {
+      display: inline-block;
+      height: 40px;
+      width: 100px;
+      margin-left: 10px;
+      text-align: center;
+      padding-top: 8px;
+    }
   }
   
   .cardinfo_box_title p {
@@ -295,8 +308,8 @@
     border-radius: 8px;
   }
   .list-member-show {
-    display: flex;
-    height: 40px;
+    // display: flex;
+    // height: 40px;
     margin: 10px;
     padding-left: 10px;
     padding-top: 7px;
@@ -304,6 +317,7 @@
     text-decoration: none;
     &:hover {
       background-color: antiquewhite;
+      cursor: pointer;
     }
   }
 }

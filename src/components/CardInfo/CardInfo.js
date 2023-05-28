@@ -2,83 +2,73 @@ import React, { useState, useEffect } from 'react'
 import HeadlessTippy from '@tippyjs/react/headless'
 
 import './CardInfo.scss'
+import ToolTip from 'components/ToolTip/ToolTip'
 import ModalCardInfo from '../Modal/ModalCardInfo'
 import InputForm from 'components/InputForm/InputForm'
 import Comment from 'components/Comment/Comment'
 import TextareaForm from 'components/InputForm/TextareaForm'
 import InfoMemberNoBtn from 'components/InfoMember/InfoMemberNoBtn'
-import { APIupdateTitle,
-  APIupdateDescription,
-  // APIaddLabel,
-  // APIremoveLabel,
-  APIaddTask,
-  APIremoveTask,
-  APIupdateTask,
-  APIupdateDate,
-  APIcheckDate,
-  APIinviteMemberCard
-} from 'actions/APIcall/APICardInfo'
+import { APIupdateCard } from 'actions/APIcall/APICardInfo'
 
 function CardInfo(props) {
-  // const colors = [
-  //   '#a8193d',
-  //   '#4fcc25',
-  //   '#1ebffa',
-  //   '#8da377',
-  //   '#9975bd',
-  //   '#cf61a1',
-  //   '#240959'
-  // ]
 
   const { onClose, cardInfos, updateCard, show } = props
   const [values, setValues] = useState(cardInfos)
-  // const [selectedColor, setSelectedColor] = useState('')
-  const [colorDate, setColorxDate] = useState('black')
-  const [showInvite, setShowInvite] = useState(true)
   const [searchMember, setSearchMember] = useState('')
   const [showResult, setShowResult] = useState(false)
   const [listMember, setListMember] = useState([])
-  // const focusInput = useRef()
-  const [complete, setComplete] = useState(false)
-  const [doing, setDoing] = useState(true)
-  const [overTime, setOverTime] = useState(false)
-  const [idUser, setIdUser] = useState()
+  const [complete, setComplete] = useState(values.complete)
+  // const [doing, setDoing] = useState(true)
+  const [overTime, setOverTime] = useState(values.overTime)
+  // const [idUser, setIdUser] = useState()
   const [dataUser, setDataUser] = useState()
+  const [showInvite, setShowInvite] = useState(dataUser != null? false:true)
+  const [showToolTip, setShowToolTip] = useState(false)
+  const [textToolTip, setTextToolTip] = useState('')
+  const [typeToolTip, setTypeToolTip] = useState(true)
+  const [showBtnChange, setShowBtnChange] = useState(false)
 
   const updateTitle = (newTitle) => {
     // API updateTitle
     if (newTitle !== values.title) {
-      const data = {
-        boardId: cardInfos.boardsId,
-        columnId: cardInfos.columnId,
-        cardId: cardInfos.id,
-        newTitle: newTitle
-      }
-      APIupdateTitle(data).then(title => {
-        setValues({ ...values, title: title })
-      }).catch(error => console.log(error))
+      // setShowBtnChange(true)
+      // const data = {
+      //   boardId: cardInfos.boardsId,
+      //   columnId: cardInfos.columnId,
+      //   cardId: cardInfos.id,
+      //   newTitle: newTitle
+      // }
+      // APIupdateTitle(data).then(res => {
+      //   if (res.status === 200) {
+      //     let title = res.data
+      //     setValues({ ...values, title: title })
+      //   }
+      // }).catch(error => console.log(error))
+      // //////////////////
+      setShowBtnChange(true)
+      setValues({ ...values, title: newTitle })
     }
-    // //////////////////
-
-    setValues({ ...values, title: newTitle })
   }
 
   const updateDescription = (newDescription) => {
-    // API
     if (newDescription !== values.description) {
-      const data = {
-        boardId: cardInfos.boardsId,
-        columnId: cardInfos.columnId,
-        cardId: cardInfos.id,
-        newDescription: newDescription
-      }
-      APIupdateDescription(data).then(description => {
-        setValues({ ...values, description: description })
-      }).catch(error => console.log(error))
+      // API
+      // const data = {
+      //   boardId: cardInfos.boardsId,
+      //   columnId: cardInfos.columnId,
+      //   cardId: cardInfos.id,
+      //   newDescription: newDescription
+      // }
+      // APIupdateDescription(data).then(res => {
+      //   if (res.status === 200) {
+      //     let description = res.data
+      //     setValues({ ...values, description: description })
+      //   }
+      // }).catch(error => console.log(error))
+      // ////////////////////////
+      setShowBtnChange(true)
+      setValues({ ...values, description: newDescription })
     }
-    // ////////////////////////
-
-    setValues({ ...values, description: newDescription })
   }
 
   // const addLabel = (newLabel) => {
@@ -128,28 +118,31 @@ function CardInfo(props) {
   }
 
   const addTask = (newTask) => {
+    setShowBtnChange(true)
     const index = values.tasks?.findIndex((item) => item.title === newTask)
     if (index > -1) return
-    
+
     let task = {
       title: newTask,
       completed: false
     }
     // API
-    const data = {
-      boardId: cardInfos.boardsId,
-      columnId: cardInfos.columnId,
-      cardId: cardInfos.id,
-      task
-    }
-    APIaddTask(data).then(task => {
-      setValues({
-        ...values,
-        tasks: [...values.tasks, task]
-      })
-    }).catch(error => console.log(error))
+    // const data = {
+    //   boardId: cardInfos.boardsId,
+    //   columnId: cardInfos.columnId,
+    //   cardId: cardInfos.id,
+    //   task
+    // }
+    // APIaddTask(data).then(res => {
+    //   if (res.status === 200) {
+    //     let task = res.data
+    //     setValues({
+    //       ...values,
+    //       tasks: [...values.tasks, task]
+    //     })
+    //   }
+    // }).catch(error => console.log(error))
     // //////////////
-
     setValues({
       ...values,
       tasks: [...values.tasks, task]
@@ -157,21 +150,24 @@ function CardInfo(props) {
   }
 
   const removeTask = (title) => {
+    setShowBtnChange(true)
     const tasks = [...values.tasks]
     // API
-    const data = {
-      boardId: cardInfos.boardsId,
-      columnId: cardInfos.columnId,
-      cardId: cardInfos.id,
-      title: title
-    }
-    APIremoveTask(data).then(tasks => {
-      setValues({
-        ...values,
-        tasks: [...values.tasks, tasks]
-      })
-    }).catch(error => console.log(error))
-
+    // const data = {
+    //   boardId: cardInfos.boardsId,
+    //   columnId: cardInfos.columnId,
+    //   cardId: cardInfos.id,
+    //   title: title
+    // }
+    // APIremoveTask(data).then(res => {
+    //   if (res.status === 200) {
+    //     const tempTasks = tasks.filter((item) => item.title !== title)
+    //     setValues({
+    //       ...values,
+    //       tasks: tempTasks
+    //     })
+    //   }
+    // }).catch(error => console.log(error))
     // ////////////
     const tempTasks = tasks.filter((item) => item.title !== title)
     setValues({
@@ -181,25 +177,34 @@ function CardInfo(props) {
   }
 
   const updateTask = (title, completed) => {
-    const taskUpdate = {
-      title: title,
-      completed: completed
-    }
+    // const taskUpdate = {
+    //   title: title,
+    //   completed: completed
+    // }
     // API
-    const data = {
-      boardId: cardInfos.boardsId,
-      columnId: cardInfos.columnId,
-      cardId: cardInfos.id,
-      taskUpdate
-    }
-    APIupdateTask(data).then(tasks => {
-      setValues({
-        ...values,
-        tasks
-      })
-    }).catch(error => console.log(error))
+    // const data = {
+    //   boardId: cardInfos.boardsId,
+    //   columnId: cardInfos.columnId,
+    //   cardId: cardInfos.id,
+    //   taskUpdate
+    // }
+    // APIupdateTask(data).then(res => {
+    //   if (res.status === 200) {
+    //     const tasks = [...values.tasks]
+    //     const index = tasks.findIndex((item) => item.title === title)
+    //     if (index < 0) return
+
+    //     tasks[index].completed = completed
+
+    //     setValues({
+    //       ...values,
+    //       tasks
+    //     })
+    //   }
+    // }).catch(error => console.log(error))
     // //////////////////////////
 
+    setShowBtnChange(true)
 
     const tasks = [...values.tasks]
     const index = tasks.findIndex((item) => item.title === title)
@@ -213,46 +218,41 @@ function CardInfo(props) {
     })
   }
 
-  const colorBgDate = () => {
-    let a = values.status
-    if ( a === 'over time') {
-      return {
-        background: 'red',
-        color: 'white'
-      }
-    } else {
-      if ( a === 'complete') {
-        return {
-          background: '#dffcf0',
-          color: '#4fcc25'
-        }
-      } else {
-        return {
-          background: '#f8f8f8',
-          color: '#000'
-        }
-      }
+  const colorBgComplete = () => {
+    return {
+      background: '#dffcf0',
+      color: '#4fcc25'
+    }
+  }
+
+  const colorBgOverTime = () => {
+    return {
+      background: 'red',
+      color: 'white'
     }
   }
 
   const updateDate = (dateUp) => {
     if (!dateUp) return
-    if (values.status === 'over time' || values.status === 'complete') return
+    if (values.overTime || values.complete) return
     // API
-    const data = {
-      boardId: cardInfos.boardsId,
-      columnId: cardInfos.columnId,
-      cardId: cardInfos.id,
-      date: dateUp
-    }
-    APIupdateDate(data).then(dateUp => {
-      setValues({
-        ...values,
-        date: dateUp
-      })
-    }).catch(error => console.log(error))
+    // const data = {
+    //   boardId: cardInfos.boardsId,
+    //   columnId: cardInfos.columnId,
+    //   cardId: cardInfos.id,
+    //   date: dateUp
+    // }
+    // APIupdateDate(data).then(res => {
+    //   if (res.status === 200) {
+    //     let dateUP = res.data
+    //     setValues({
+    //       ...values,
+    //       date: dateUP
+    //     })
+    //   }
+    // }).catch(error => console.log(error))
     // ///////////////
-
+    setShowBtnChange(true)
     setValues({
       ...values,
       date: dateUp
@@ -262,49 +262,53 @@ function CardInfo(props) {
   const checkDate = (e) => {
     if (e.target.checked) {
       // API
-      const data = {
-        boardId: cardInfos.boardsId,
-        columnId: cardInfos.columnId,
-        cardId: cardInfos.id,
-        status: 'complete'
-      }
-      APIcheckDate(data).then(dateUp => {
-        setColorxDate('#4fcc25')
-        setComplete(true)
-        setDoing(false)
-        setOverTime(false)
-      }).catch(error => console.log(error))
+      // const data = {
+      //   boardId: cardInfos.boardsId,
+      //   columnId: cardInfos.columnId,
+      //   cardId: cardInfos.id,
+      //   status: 'complete'
+      // }
+      // APIcheckDate(data).then(dateUp => {
+      //   setColorxDate('#4fcc25')
+      //   setComplete(true)
+      //   setDoing(false)
+      //   setOverTime(false)
+      // }).catch(error => console.log(error))
       // ////////////////
-
-
-      setColorxDate('#4fcc25')
-      setComplete(true)
-      setDoing(false)
-      setOverTime(false)
+      setShowBtnChange(!showBtnChange)
+      setValues({
+        ...values,
+        complete: true
+      })
+      setComplete(!complete)
+      // setColorComplete('#4fcc25')
     } else {
-      setColorxDate('black')
+      setComplete(!complete)
+      setShowBtnChange(!showBtnChange)
     }
   }
 
   useEffect(() => {
-    if (values.status === 'doing') {
-      setComplete(false)
-      setDoing(true)
-      setOverTime(false)
+    if (values.overTime && values.complete) {
+      setComplete(true)
+      setOverTime(true)
+      // setColorComplete('#4fcc25')
+      // setColorOverTime('red')
     } else {
-      if (values.status === 'complete') {
+      if (values.complete) {
         setComplete(true)
-        setDoing(false)
         setOverTime(false)
-        setColorxDate('#4fcc25')
-      } else {
-        setComplete(false)
-        setDoing(false)
-        setOverTime(true)
-        setColorxDate('red')
+        // setColorComplete('#4fcc25')
       }
+      // else {
+      //   if (values.overTime && !values.complete) {
+      //     setComplete(false)
+      //     setOverTime(true)
+      //     setColorOverTime('red')
+      //   }
+      // }
     }
-  }, [values.status])
+  }, [values.complete])
 
   // useEffect(() => {
   //   if (focusInput && focusInput.current) {
@@ -313,26 +317,43 @@ function CardInfo(props) {
   //   }
   // }, [showInvite])
 
-  const inviteMemberCard = () => {
-    if (searchMember !== '') {
-      // API
-      const data = {
-        boardId: cardInfos.boardsId,
-        columnId: cardInfos.columnId,
-        cardId: cardInfos.id,
-        idUser: idUser
-      }
-      APIcheckDate(data).then(dataUser => {
-        setShowInvite(!showInvite)
-        setSearchMember('')
-        setDataUser(dataUser)
-      }).catch(error => console.log(error))
-      // ////
-      setShowInvite(!showInvite)
-      setSearchMember('')
-    }
+  const inviteMemberCard = (user) => {
+    setShowBtnChange(!showBtnChange)
+    setValues({
+      ...values,
+      userName: user.userName,
+      userEmail: user.email,
+      userimage: user.image
+    })
+    setShowInvite(!showInvite)
+    setSearchMember('')
+    setDataUser(user)
+
+    // if (searchMember !== '') {
+    //   API
+    //   const data = {
+    //     boardId: cardInfos.boardsId,
+    //     columnId: cardInfos.columnId,
+    //     cardId: cardInfos.id,
+    //     idUser: idUser
+    //   }
+    //   APIinviteMemberCard(data).then(res => {
+    //     if (res.status === 200) {
+    //       const data =  res.data
+    //       setShowInvite(!showInvite)
+    //       setSearchMember('')
+    //       setDataUser(data)
+    //     }
+    //   }).catch(error => {
+    //     if (error.response.status !== 200) {
+    //       setTextToolTip('Thêm thành viên thất bại')
+    //       setTypeToolTip(false)
+    //       setShowToolTip(true)
+    //     }
+    //   })
+    // }
   }
-  
+
   useEffect(() => {
     if (!searchMember.trim()) {
       setListMember([])
@@ -342,20 +363,22 @@ function CardInfo(props) {
       setShowResult(true)
     }
     const fetchApi = async () => {
-
       // const result = await searchAPI(searchValue)
       const result = [
         {
-          title: 'bac',
-          id: '1'
+          userName: 'bac',
+          email: '1aaa',
+          image: ''
         },
         {
-          title: 'bac',
-          id: '2'
+          userName: 'bac',
+          email: '1aaa',
+          image: ''
         },
         {
-          title: 'bac',
-          id: '3'
+          userName: 'bac',
+          email: '1aaa',
+          image: ''
         }
       ]
       setListMember(result)
@@ -364,17 +387,50 @@ function CardInfo(props) {
     fetchApi()
   }, [searchMember])
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (updateCard) updateCard(values)
+  // }, [values])
+
+  const updateCardInfo = () => {
     if (updateCard) updateCard(values)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values])
+    setShowBtnChange(false)
+    APIupdateCard(values).then(res => {
+      if (res.status === 200) {
+        setShowBtnChange(false)
+        const data = res.data
+        if (updateCard) updateCard(data)
+      }
+    }).catch(error => {
+      if (error.response.status !== 200) {
+        setTextToolTip('Thay đổi thẻ thất bại')
+        setTypeToolTip(false)
+        setShowToolTip(true)
+      }
+    })
+  }
+
+  const handleClose = () => {
+    setShowToolTip(!showToolTip)
+  }
 
   return (
     <ModalCardInfo onClose={onClose}>
+      {showToolTip &&
+        <ToolTip
+          type={typeToolTip}
+          message={ textToolTip }
+          handleClose={handleClose}
+        />
+      }
       <div className="cardinfo">
         <div className="icon-close" onClick={() => show(false)}>
           <i className="fa fa-times" />
         </div>
+        {showBtnChange &&
+          <div>
+            <button onClick={updateCardInfo}>aaaa</button>
+          </div>
+        }
         <div className="cardinfo_box">
           <div className="cardinfo_box_title">
             <p>Người thực hiện</p>
@@ -401,11 +457,14 @@ function CardInfo(props) {
                         <div
                           key={index}
                           className="list-member-show"
-                          onClick={() => {
-                            setIdUser(item.id)
-                            setSearchMember(item.title)
-                          }}
-                        >{ item.title }</div>
+                          onClick={() => inviteMemberCard(item)}
+                        >
+                          <InfoMemberNoBtn
+                            userName={item.userName}
+                            email={item.email}
+                            image={item.image}
+                          />
+                        </div>
                       ))}
                     </div>
                   )}
@@ -419,7 +478,7 @@ function CardInfo(props) {
                       value={ searchMember }
                       onChange={(e) => setSearchMember(e.target.value)}
                     />
-                    <button onClick={inviteMemberCard}>Thêm</button>
+                    {/* <button onClick={inviteMemberCard}>Thêm</button> */}
                   </div>
                 </HeadlessTippy>
               }
@@ -464,10 +523,27 @@ function CardInfo(props) {
               // defaultValue={cardInfos.date}
               min={new Date().toISOString().substr(0, 10)}
               onChange={(event) => updateDate(event.target.value)}
-              style={{ color: colorDate }}
+              // style={{ color: colorDate }}
             />
-            <span className="check-box-date">
-              {doing &&
+            <div className="check-box-date">
+              <input
+                type="checkbox"
+                onClick={checkDate}
+                defaultChecked={values.complete}
+              />
+              {complete &&
+                <span
+                  className='color-date'
+                  style={{ backgroundColor: colorBgComplete().background, color: colorBgComplete().color }}
+                >Complete</span>
+              }
+              {overTime &&
+                <span
+                  className='color-date'
+                  style={{ backgroundColor: colorBgOverTime().background, color: colorBgOverTime().color }}
+                >Over Time</span>
+              }
+              {/* {doing &&
                 <input
                   type="checkbox"
                   // defaultChecked={checkBoxDate}
@@ -485,8 +561,8 @@ function CardInfo(props) {
                   className='color-date'
                   style={{ backgroundColor: colorBgDate().background, color: colorBgDate().color }}
                 >Over Time</span>
-              }
-            </span>
+              } */}
+            </div>
           </div>
         </div>
 

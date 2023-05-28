@@ -5,7 +5,7 @@ export const fetchSignIn = async (data) => {
     headers: { 'Content-Type': 'application/json' }
     // withCredentials: true
   })
-  return request.data
+  return request
 }
 
 export const fetchSignUp = async (data) => {
@@ -13,7 +13,7 @@ export const fetchSignUp = async (data) => {
     headers: { 'Content-Type': 'application/json' }
     // withCredentials: true
   })
-  return request.data
+  return request
 }
 
 export const fetchParam = async (data) => {
@@ -21,5 +21,5 @@ export const fetchParam = async (data) => {
     headers: { 'Content-Type': 'application/json' }
     // withCredentials: true
   })
-  return request.data
+  return request
 }

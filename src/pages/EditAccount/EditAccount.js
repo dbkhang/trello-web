@@ -2,14 +2,17 @@ import React, { useState, useRef, useEffect } from 'react'
 
 import './EditAccount.scss'
 import TopBar from 'components/TopBar/TopBar'
+import ToolTip from 'components/ToolTip/ToolTip'
+import { fetchDataUser, fetchDataListBoard } from 'actions/APIcall/APIPageHome'
 import { APIupdatePassword, APIupdateInformation } from 'actions/APIcall/APIeditAccount'
-import { dataUser } from 'actions/initialData'
+// import { dataUser } from 'actions/initialData'
 
 function EditAccount() {
-  const [data, setData] = useState(dataUser)
-
-  const [nameUser, setNameUser]= useState(data.userName)
-  const [image, setImage] = useState(data.img)
+  // const [data, setData] = useState(dataUser)
+  const [userData, setUserData] = useState({})
+  const [userListBoard, setUserListBoard] = useState([])
+  const [nameUser, setNameUser]= useState()
+  const [image, setImage] = useState()
   const [fileName, setFileName] = useState('No file')
   const [showCheck, setShowCheck] = useState(false)
   const changeNameRef = useRef(null)
@@ -17,6 +20,51 @@ function EditAccount() {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errChangePassword, setErrChangePassword] = useState('')
+  const [showToolTip, setShowToolTip] = useState(false)
+  const [textToolTip, setTextToolTip] = useState('')
+  const [typeToolTip, setTypeToolTip] = useState()
+
+
+  useEffect(() => {
+    fetchDataUser().then(res => {
+      if (res.status === 200) {
+        let data = res.data
+        setUserData(data)
+        setNameUser(abc.userName)
+      }
+      // setBoard(data.listBoard)
+    }).catch(error => console.log(error))
+
+    fetchDataListBoard().then(res => {
+      if (res.status === 200) {
+        let data = res.data
+        setUserListBoard(data)
+      }
+      // setBoard(data.listBoard)
+    }).catch(error => console.log(error))
+
+
+    const abc = {
+      imageUser: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
+      userName: 'aaaa',
+      userEmail: 'bbbbb'
+    }
+    const ccc= [
+      {
+        id: '1',
+        title: 'board 1',
+        color: '#333'
+      },
+      {
+        id: '2',
+        title: 'board 2',
+        color: '#133'
+      }
+    ]
+    setUserData(abc)
+    setNameUser(abc.userName)
+    setUserListBoard(ccc)
+  }, [])
 
   const chooseImg = () => {
     document.querySelector('.input-file').click()
@@ -49,43 +97,78 @@ function EditAccount() {
       password: password,
       newPassword: newPassword
     }
-    APIupdatePassword(dataPass).then(data => {
-      //
-    }).catch(error => console.log(error))
+    APIupdatePassword(dataPass).then(res => {
+      if (res.status === 200) {
+        setTextToolTip('Thay đổi mật khẩu thành công')
+        setShowToolTip(true)
+        setTypeToolTip(true)
+      }
+    }).catch(error => {
+      if (error.response.status !== 200) {
+        setTextToolTip('Thay đổi mật khẩu thất bại')
+        setShowToolTip(true)
+        setTypeToolTip(false)
+      }
+    })
   }
 
   const updateInformation = () => {
-    let newData = { ...data }
-    newData.img = image
+
+    // ///////////////////
+    let newData = { ...userData }
+    newData.imageUser = image
     newData.userName = nameUser
-    setData(newData)
+    setUserData(newData)
 
     // API
     const newInfo = {
       userName: nameUser,
       image: image
     }
-    APIupdatePassword(newInfo).then(data => {
-      let newData = { ...data }
-      newData.img = data.image
-      newData.userName = data.userName
-      setData(newData)
-    }).catch(error => console.log(error))
+    APIupdateInformation(newInfo).then(res => {
+      if (res.status === 200) {
+        let data = res.data
+        let newData = { ...data }
+        newData.imageUser = data.imageUser
+        newData.userName = data.userName
+        setUserData(newData)
+      }
+    }).catch(error => {
+      if (error.response.status !== 200) {
+        setTextToolTip('Thay đổi thông tin thất bại')
+        setShowToolTip(true)
+        setTypeToolTip(false)
+      }
+    })
+  }
+
+  const handleClose = () => {
+    setShowToolTip(false)
   }
 
   return (
     <div>
-      <TopBar data={data} />
+      {showToolTip &&
+        <ToolTip
+          type={typeToolTip}
+          message={ textToolTip }
+          handleClose={handleClose}
+        />
+      }
+      <TopBar
+        user={userData}
+        data={userListBoard}
+      />
       <div className="edit-container">
         <div className="edit-main">
-          <h3>Edit Information</h3>
+          <h3>Thay đổi thông tin</h3>
           <div className="edit-information-account">
             <div className="edit-information-account-main">
               <div className="change-avatar">
                 <button onClick={chooseImg}>
                   {image ?
                     <img src={image} alt={fileName}/>
-                    : <img src={data.img} alt="avatar-user" />
+                    : <img src={userData.imageUser} alt="avatar-user" />
                   }
                 </button>
                 <input type="file"
@@ -115,16 +198,16 @@ function EditAccount() {
                     onKeyDown={e => (e.key === 'Enter') && setShowCheck(!showCheck)}
                   />
                 }
-                <div className="email-user">{ data.userEmail }</div>
+                <div className="email-user">{ userData.userEmail }</div>
               </div>
             </div>
-            <button className="btn-save-edit" onClick={updateInformation}>Save Edit</button>
+            <button className="btn-save-edit" onClick={updateInformation}>Lưu thay đổi</button>
           </div>
 
-          <h3>Edit Pasword</h3>
+          <h3>Đổi mật khẩu</h3>
           <div className="change-password">
             <div>
-              <label>Password</label>
+              <label>Mật khẩu cũ</label>
               <input
                 type="password"
                 value={password}
@@ -132,7 +215,7 @@ function EditAccount() {
               />
             </div>
             <div>
-              <label>New Password</label>
+              <label>Mật khẩu mới</label>
               <input
                 type="password"
                 value={newPassword}
@@ -140,7 +223,7 @@ function EditAccount() {
               />
             </div>
             <div>
-              <label>Confirm Password</label>
+              <label>Nhập lại mật khẩu</label>
               <input
                 type="password"
                 value={confirmPassword}
@@ -148,7 +231,7 @@ function EditAccount() {
               />
             </div>
             <div className="err-change-password">{ errChangePassword }</div>
-            <button onClick={changePassword}>Edit Password</button>
+            <button onClick={changePassword}>Thay đổi mật khẩu</button>
           </div>
         </div>
       </div>

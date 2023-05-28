@@ -1,5 +1,15 @@
 import axios from 'axios'
 
+export const APIupdateCard = async (data) => {
+  const request = await axios.post('http://localhost:3000', data, {
+    headers: {
+      'Authorization': localStorage.getItem('accessToken'),
+      'Content-Type': 'application/json'
+    }
+  })
+  return request
+}
+
 export const APIupdateTitle = async (titleCard) => {
   const request = await axios.post('http://localhost:3000', titleCard, {
     headers: {
@@ -7,7 +17,7 @@ export const APIupdateTitle = async (titleCard) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIupdateDescription = async (newDescription) => {
@@ -17,7 +27,7 @@ export const APIupdateDescription = async (newDescription) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIaddTask = async (task) => {
@@ -27,7 +37,7 @@ export const APIaddTask = async (task) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIremoveTask = async (data) => {
@@ -37,7 +47,7 @@ export const APIremoveTask = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIupdateTask = async (data) => {
@@ -47,7 +57,7 @@ export const APIupdateTask = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIupdateDate = async (data) => {
@@ -57,7 +67,7 @@ export const APIupdateDate = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIcheckDate = async (data) => {
@@ -67,7 +77,7 @@ export const APIcheckDate = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIinviteMemberCard = async (data) => {
@@ -77,7 +87,7 @@ export const APIinviteMemberCard = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIigetAllComment = async (data) => {
@@ -87,7 +97,7 @@ export const APIigetAllComment = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIicreateComment = async (data) => {
@@ -97,5 +107,5 @@ export const APIicreateComment = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }

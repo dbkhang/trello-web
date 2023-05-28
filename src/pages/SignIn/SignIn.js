@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 
 import './SignIn.scss'
+import ToolTip from 'components/ToolTip/ToolTip'
 import { fetchSignIn, fetchParam } from 'actions/APIcall'
 
 function SignIn() {
@@ -9,16 +10,15 @@ function SignIn() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const history = useNavigate()
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams()
+  const [showToolTip, setShowToolTip] = useState(localStorage.getItem('signup')=='ok'? true:false)
+
 
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email)
   }
 
   useEffect(() => {
-    if (localStorage.getItem('signup')) {
-      alert('Bạn đã tạo tài khoản thành công vui lòng vào email để xác nhận')
-    }
     if (searchParams.get('id')) {
       try {
         fetchParam(searchParams.get('id'))
@@ -45,15 +45,29 @@ function SignIn() {
     }
     try {
       let response = await fetchSignIn(dataReq)
-      localStorage.setItem('accessToken', response.Token)
-      history.push('/')
+      if (response.status === 200) {
+        let data = response.data
+        localStorage.setItem('accessToken', data.Token)
+        history('/', { state: data.user })
+      }
     } catch (error) {
       setError(error.message)
     }
   }
 
+  const handleClose = () => {
+    setShowToolTip(false)
+  }
+
   return (
     <div className="main-signin">
+      {showToolTip &&
+        <ToolTip
+          type={true}
+          message={'Đăng ký tài khoản thành công. Hãy vào email để xác nhận!'}
+          handleClose={handleClose}
+        />
+      }
       <div className="content-signin">
         <div className="title-signin"><h2>Đăng nhập Trello</h2></div>
         <form>
@@ -82,7 +96,9 @@ function SignIn() {
           >Đăng nhập</button>
           <div className="link-signup">
             <span>Bạn chưa có tài khoản</span>
-            <Link to="/signup" >Đăng ký tài khoản</Link>
+            <Link
+              to="/signup"
+            >Đăng ký tài khoản</Link>
           </div>
         </div>
       </div>

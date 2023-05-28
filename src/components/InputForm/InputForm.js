@@ -32,7 +32,7 @@ function InputForm(props) {
             autoFocus
           />
           <div className="editable_edit_footer">
-            <button type="submit">{props.buttonText || 'Add'}</button>
+            <button type="submit">{props.buttonText || 'Thêm'}</button>
             <i className="fa fa-times  closeIcon" onClick={() => setIsInputForm(false)} />
           </div>
         </form>

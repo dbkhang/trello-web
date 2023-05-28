@@ -21,22 +21,26 @@ function Search() {
     }
     const fetchApi = async () => {
 
-      const result = await searchAPI(searchValue)
-      // const result = [
-      //   {
-      //     title: 'bac',
-      //     id: '1'
-      //   },
-      //   {
-      //     title: 'bac',
-      //     id: '2'
-      //   },
-      //   {
-      //     title: 'bac',
-      //     id: '3'
-      //   }
-      // ]
-      setListBoard(result)
+      try {
+        const result = await searchAPI(searchValue)
+        // const result = [
+        //   {
+        //     title: 'bac',
+        //     id: '1'
+        //   },
+        //   {
+        //     title: 'bac',
+        //     id: '2'
+        //   },
+        //   {
+        //     title: 'bac',
+        //     id: '3'
+        //   }
+        // ]
+        setListBoard(result)
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     fetchApi()
@@ -63,7 +67,6 @@ function Search() {
           className="input-search"
           onChange={(e) => setSearchValue(e.target.value)}
         />
-        {/* <div className="search-btn"><i className="fa fa-search" /></div> */}
       </div>
     </HeadlessTippy>
 

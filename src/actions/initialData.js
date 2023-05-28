@@ -18,7 +18,8 @@ const initialData = {
               userName: 'aaaaaaa',
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               date: '2024-05-05',
-              status: 'doing',
+              complete: true,
+              overTime: true,
               labels: [
                 {
                   title: 'abcabc',
@@ -48,7 +49,8 @@ const initialData = {
               userName: 'aaaaaaa',
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               date: '2024-06-06',
-              status: 'over time',
+              complete: true,
+              overTime: true,
               labels: [
                 {
                   title: 'abcabc',
@@ -78,7 +80,8 @@ const initialData = {
               userName: 'aaaaaaa',
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               date: '2024-7-7',
-              status: 'complete',
+              complete: false,
+              overTime: false,
               labels: [
                 {
                   title: 'abcabc',
@@ -108,7 +111,8 @@ const initialData = {
               userName: 'aaaaaaa',
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               date: '2024-05-05',
-              status: 'complete',
+              complete: true,
+              overTime: true,
               labels: [
                 {
                   title: 'abcabc',
@@ -147,7 +151,8 @@ const initialData = {
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               description: 'test car',
               date: '2024-08-08',
-              status: 'complete',
+              complete: true,
+              overTime: false,
               labels: [
                 {
                   title: 'abcabc',
@@ -177,7 +182,8 @@ const initialData = {
               userName: 'aaaaaaa',
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               date: '2024-09-09',
-              status: 'over time',
+              complete: true,
+              overTime: false,
               labels: [
                 {
                   title: 'abcabc',
@@ -207,7 +213,8 @@ const initialData = {
               userName: 'aaaaaaa',
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               date: '2024-10-10',
-              status: 'doing',
+              complete: true,
+              overTime: false,
               labels: [
                 {
                   title: 'abcabc',
@@ -245,7 +252,8 @@ const initialData = {
               userName: 'aaaaaaa',
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               date: '2024-11-11',
-              status: 'over time',
+              complete: false,
+              overTime: false,
               labels: [
                 {
                   title: 'abcabc',
@@ -275,7 +283,8 @@ const initialData = {
               userName: 'aaaaaaa',
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               date: '2024-12-12',
-              status: 'complete',
+              complete: true,
+              overTime: false,
               labels: [
                 {
                   title: 'abcabc',
@@ -305,7 +314,8 @@ const initialData = {
               userName: 'aaaaaaa',
               imageUsername: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
               date:'2023-10-10',
-              status: 'doing',
+              complete: false,
+              overTime: true,
               labels: [
                 {
                   title: 'abcabc',

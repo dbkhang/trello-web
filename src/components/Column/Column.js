@@ -33,6 +33,7 @@ function Column(props) {
   const [showCardInfo, setShowCardInfo] = useState(false)
   const [oneCard, setOneCard] = useState()
 
+
   useEffect(() => {
     setColumnTitle(column.title)
   }, [column.title])
@@ -50,12 +51,14 @@ function Column(props) {
       idColumn: column.id
     }
     // API
-    removeColumnAPI(data).then(rep => {
-      const newColumn = {
-        ...column,
-        _destroy: true
+    removeColumnAPI(data).then(res => {
+      if (res.status === 200) {
+        const newColumn = {
+          ...column,
+          _destroy: true
+        }
+        onUpdateColumnState(newColumn)
       }
-      onUpdateColumnState(newColumn)
     }).catch(error => console.log(error))
     // /////////////////////////////
     const newColumn = {
@@ -77,12 +80,15 @@ function Column(props) {
         columnID: column.id,
         title: columnTitle
       }
-      updateTitleColumn(data).then(newTitle => {
-        const newColumn = {
-          ...column,
-          title: newTitle
+      updateTitleColumn(data).then(res => {
+        if (res.status === 200) {
+          const newTitle = res.data
+          const newColumn = {
+            ...column,
+            title: newTitle
+          }
+          onUpdateColumnState(newColumn)
         }
-        onUpdateColumnState(newColumn)
       }).catch(error => console.log(error))
     }
     const newColumn = {
@@ -117,14 +123,17 @@ function Column(props) {
       status: 'doing'
     }
 
-    createNewCard(newCardToAdd).then(card => {
-      let newColumn = column
-      newColumn.cards.push(card)
-      newColumn.cardOrder.push(newCardToAdd.id)
+    createNewCard(newCardToAdd).then(res => {
+      if (res.status === 200) {
+        let card = res.data
+        let newColumn = column
+        newColumn.cards.push(card)
+        newColumn.cardOrder.push(newCardToAdd.id)
 
-      onUpdateColumnState(newColumn)
-      setNewCardTitle('')
-      clickOpenNewCardForm()
+        onUpdateColumnState(newColumn)
+        setNewCardTitle('')
+        clickOpenNewCardForm()
+      }
     }).catch(error => console.log(error))
 
 
@@ -183,8 +192,8 @@ function Column(props) {
               <Dropdown.Toggle id="dropdown-basic" size="sm" className="dropdown-btn" />
 
               <Dropdown.Menu>
-                <Dropdown.Item onClick={clickOpenNewCardForm}>Add card...</Dropdown.Item>
-                <Dropdown.Item onClick={removeColumn}>Remove column...</Dropdown.Item>
+                <Dropdown.Item onClick={clickOpenNewCardForm}>Thêm thẻ...</Dropdown.Item>
+                <Dropdown.Item onClick={removeColumn}>Xoá cột...</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -234,7 +243,7 @@ function Column(props) {
         <footer>
           {openNewCardForm &&
           <div className="add-new-card-action">
-            <Button variant="success" size="sm" onClick={addNewCard} >Add card</Button>
+            <Button variant="success" size="sm" onClick={addNewCard} >Thêm thẻ</Button>
             <span className="cancel-icon" onClick={clickOpenNewCardForm}>
               <i className="fa fa-times icon" />
             </span>
@@ -242,7 +251,7 @@ function Column(props) {
           }
           {!openNewCardForm &&
           <div className="footer-actions" onClick={clickOpenNewCardForm}>
-            <i className="fa fa-plus icon" /> Add anthor card
+            <i className="fa fa-plus icon" /> Thêm thẻ mới
           </div>
           }
         </footer>
