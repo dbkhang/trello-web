@@ -14,6 +14,7 @@ function CardInfo(props) {
 
   const { onClose, cardInfos, updateCard, show } = props
   const [values, setValues] = useState(cardInfos)
+  let valuesState = cardInfos
   const [searchMember, setSearchMember] = useState('')
   const [showResult, setShowResult] = useState(false)
   const [listMember, setListMember] = useState([])
@@ -25,10 +26,7 @@ function CardInfo(props) {
   const [textToolTip, setTextToolTip] = useState('')
   const [typeToolTip, setTypeToolTip] = useState(true)
   const [showBtnChange, setShowBtnChange] = useState(false)
-
-  useEffect(() => {
-    
-  })
+  const _ = require('lodash');
 
   const updateTitle = (newTitle) => {
     // API updateTitle
@@ -47,7 +45,7 @@ function CardInfo(props) {
       //   }
       // }).catch(error => console.log(error))
       // //////////////////
-      setShowBtnChange(true)
+      // setShowBtnChange(true)
       setValues({ ...values, title: newTitle })
     }
   }
@@ -68,51 +66,11 @@ function CardInfo(props) {
       //   }
       // }).catch(error => console.log(error))
       // ////////////////////////
-      setShowBtnChange(true)
+      // setShowBtnChange(true)
       setValues({ ...values, description: newDescription })
     }
   }
 
-  // const addLabel = (newLabel) => {
-  //   const index = values.labels?.findIndex((item) => item.title === newLabel.title)
-  //   if (index > -1) return
-  //   let label = {
-  //     title: newLabel.title,
-  //     colors: newLabel.colors
-  //   }
-  //   // API
-  //   APIaddLabel(label).then(label => {
-  //     setSelectedColor('')
-  //     setValues({
-  //       ...values,
-  //       labels: [...values.labels, label]
-  //     })
-  //   }).catch(error => console.log(error))
-
-
-  //   setSelectedColor('')
-  //   setValues({
-  //     ...values,
-  //     labels: [...values.labels, label]
-  //   })
-  // }
-
-  // const removeLabel = (label) => {
-  //   // API
-  //   APIremoveLabel(label).then(label => {
-  //     setValues({
-  //       ...values,
-  //       labels: label
-  //     })
-  //   }).catch(error => console.log(error))
-
-  //   // //////////////////
-  //   const tempLabels = values.labels.filter((item) => item.title !== label.title)
-  //   setValues({
-  //     ...values,
-  //     labels: tempLabels
-  //   })
-  // }
   const calculatePercent = () => {
     if (!values.tasks?.length) return 0
     const completed = values.tasks?.filter((item) => item.completed)?.length
@@ -120,7 +78,7 @@ function CardInfo(props) {
   }
 
   const addTask = (newTask) => {
-    setShowBtnChange(true)
+    // setShowBtnChange(true)
     const index = values.tasks?.findIndex((item) => item.title === newTask)
     if (index > -1) return
 
@@ -152,7 +110,7 @@ function CardInfo(props) {
   }
 
   const removeTask = (title) => {
-    setShowBtnChange(true)
+    // setShowBtnChange(true)
     const tasks = [...values.tasks]
     // API
     // const data = {
@@ -206,7 +164,7 @@ function CardInfo(props) {
     // }).catch(error => console.log(error))
     // //////////////////////////
 
-    setShowBtnChange(true)
+    // setShowBtnChange(true)
 
     const tasks = [...values.tasks]
     const index = tasks.findIndex((item) => item.title === title)
@@ -254,7 +212,7 @@ function CardInfo(props) {
     //   }
     // }).catch(error => console.log(error))
     // ///////////////
-    setShowBtnChange(true)
+    // setShowBtnChange(true)
     setValues({
       ...values,
       date: dateUp
@@ -277,7 +235,7 @@ function CardInfo(props) {
       //   setOverTime(false)
       // }).catch(error => console.log(error))
       // ////////////////
-      setShowBtnChange(!showBtnChange)
+      // setShowBtnChange(!showBtnChange)
       setValues({
         ...values,
         complete: true
@@ -286,7 +244,7 @@ function CardInfo(props) {
       // setColorComplete('#4fcc25')
     } else {
       setComplete(!complete)
-      setShowBtnChange(!showBtnChange)
+      // setShowBtnChange(!showBtnChange)
     }
   }
 
@@ -307,7 +265,7 @@ function CardInfo(props) {
 
 
   const inviteMemberCard = (user) => {
-    setShowBtnChange(!showBtnChange)
+    // setShowBtnChange(!showBtnChange)
     setValues({
       ...values,
       userName: user.userName,
@@ -382,10 +340,10 @@ function CardInfo(props) {
 
   const updateCardInfo = () => {
     if (updateCard) updateCard(values)
-    setShowBtnChange(false)
+    // setShowBtnChange(false)
     APIupdateCard(values).then(res => {
       if (res.status === 200) {
-        setShowBtnChange(false)
+        // setShowBtnChange(false)
         const data = res.data
         if (updateCard) updateCard(data)
       }
@@ -402,6 +360,16 @@ function CardInfo(props) {
     setShowToolTip(!showToolTip)
   }
 
+  useEffect(() => {
+    JSON.stringify
+    // if (JSON.stringify(valuesState) !== JSON.stringify(values)) {
+    if (! _.isEqual(valuesState, values)) {
+      setShowBtnChange(true)
+    } else {
+      setShowBtnChange(false)
+    }
+  }, [values])
+
   return (
     <ModalCardInfo onClose={onClose}>
       {showToolTip &&
@@ -417,7 +385,7 @@ function CardInfo(props) {
         </div>
         {showBtnChange &&
           <div>
-            <button onClick={updateCardInfo}>Lưu thay đổi</button>
+            <button className="btnChangeCardInfo" onClick={updateCardInfo}>Lưu thay đổi</button>
           </div>
         }
         <div className="cardinfo_box">
