@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import './Notifications.scss'
 import NotificationChildren from './NotificationChildren'
@@ -13,7 +13,7 @@ function Notifications(props) {
       <div className="notifications-arrow-top"></div>
       <div className="notifications-main">
         <div className="notifications-top">
-          <h4>Notifications</h4>
+          <h4>Thông báo</h4>
         </div>
         <div className="notifications-container">
           {/* thay notifications = props.data */}

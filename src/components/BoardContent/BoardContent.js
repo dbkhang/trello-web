@@ -37,16 +37,18 @@ function BoardContent() {
   const onNewTitle = (e) => setNewColumnTitle(e.target.value)
 
   useEffect(() => {
-    console.log(idBoard);
     const boardFromDB = initialData.boards.find(board => board.id === 'board-1')
     if (boardFromDB) {
       setBoard(boardFromDB)
       setColumns(mapOrder(boardFromDB.columns, boardFromDB.columnOrder, 'id'))
     }
     // API
-    fetchBoardDetails(idBoard).then(board => {
-      setBoard(board)
-      setColumns(mapOrder(board.columns, board.columnOrder, 'id'))
+    fetchBoardDetails(idBoard).then(res => {
+      if (res.status === 200) {
+        const board = res.data
+        setBoard(board)
+        setColumns(mapOrder(board.columns, board.columnOrder, 'id'))
+      }
     }).catch(error => console.log(error))
   }, [idBoard])
 
@@ -76,9 +78,11 @@ function BoardContent() {
       boardId: newBoard.id,
       columnOrder: newBoard.columnOrder
     }
-    fetchupdateBoard(data).then(rep => {
-      setColumns(newcolumns)
-      setBoard(newBoard)
+    fetchupdateBoard(data).then(res => {
+      if (res.status === 200) {
+        setColumns(newcolumns)
+        setBoard(newBoard)
+      }
     }).catch(error => console.log(error))
 
     setColumns(newcolumns)
@@ -125,19 +129,22 @@ function BoardContent() {
       cards: []
     }
 
-    createNewColumn(newColumnToAdd).then(column => {
-      let newcolumns = [...columns]
-      newcolumns.push(column)
+    createNewColumn(newColumnToAdd).then(res => {
+      if (res.status === 200) {
+        let column = res.data
+        let newcolumns = [...columns]
+        newcolumns.push(column)
 
-      let newBoard = { ...board }
-      newBoard.columnOrder = newcolumns.map(c => c._id)
-      newBoard.columns = newcolumns
+        let newBoard = { ...board }
+        newBoard.columnOrder = newcolumns.map(c => c._id)
+        newBoard.columns = newcolumns
 
-      setColumns(newcolumns)
-      setBoard(newBoard)
-      setNewColumnTitle('')
-      clickOpenNewColumnForm()
-    })
+        setColumns(newcolumns)
+        setBoard(newBoard)
+        setNewColumnTitle('')
+        clickOpenNewColumnForm()
+      }
+    }).catch(error => console.log(error))
 
     let newcolumns = [...columns]
     newcolumns.push(newColumnToAdd)
@@ -219,7 +226,7 @@ function BoardContent() {
           {!openNewColumnForm &&
           <Row>
             <Col className="add-new-column" onClick={clickOpenNewColumnForm}>
-              <i className="fa fa-plus icon" /> Add anthor card
+              <i className="fa fa-plus icon" /> Thêm cột mới
             </Col>
           </Row>
           }
@@ -237,7 +244,7 @@ function BoardContent() {
                 onChange={onNewTitle}
                 onKeyDown={Event => (Event.key === 'Enter') && addNewColumn()}
               />
-              <Button variant="success" size="sm" onClick={addNewColumn}>Add column</Button>
+              <Button variant="success" size="sm" onClick={addNewColumn}>Thêm cột</Button>
               <span className="cancel-new-column" onClick={clickOpenNewColumnForm}>
                 <i className="fa fa-times icon" />
               </span>

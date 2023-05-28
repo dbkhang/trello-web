@@ -7,5 +7,5 @@ export const searchAPI = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }

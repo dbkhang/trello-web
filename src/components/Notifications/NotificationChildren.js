@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
 // import { NavLink } from 'react-router-dom'
+
 import './Notifications.scss'
+import ToolTip from 'components/ToolTip/ToolTip'
 import { APIupdateNotifications } from 'actions/APIcall/APINotifications'
 
 function NotificationChildren(props) {
   const [showBtn, setShowBtn] = useState(props.type)
+  const [showToolTip, setShowToolTip] = useState(false)
+  const [textToolTip, setTextToolTip] = useState('')
+  const [typeToolTip, setTypeToolTip] = useState()
 
   const handelShowBtnYes = () => {
     const data = {
@@ -12,18 +17,19 @@ function NotificationChildren(props) {
       type: true
     }
     // API
-    APIupdateNotifications(data).then(data => {
-      setShowBtn(true)
-      props.addBoard(data)
-    }).catch(error => console.log(error))
-    // /////////////////
-    // const databoard = {
-    //   id: '5',
-    //   title: 'them 1',
-    //   color: '#333'
-    // }
-    // setShowBtn(true)
-    // props.addBoard(databoard)
+    APIupdateNotifications(data).then(res => {
+      const data = res.response
+      if (data.status === 200) {
+        setShowBtn(true)
+        props.addBoard(data.data)
+      }
+    }).catch(error => {
+      if (error.response.status !== 200) {
+        setTextToolTip('Thêm bảng thành công')
+        setTypeToolTip(true)
+        setShowToolTip(true)
+      }
+    })
 
   }
   const handelShowBtnNo = () => {
@@ -32,14 +38,34 @@ function NotificationChildren(props) {
       type: false
     }
     // API
-    APIupdateNotifications(data).then(data => {
-      setShowBtn(true)
-    }).catch(error => console.log(error))
+    APIupdateNotifications(data).then(res => {
+      const data = res.response
+      if (data.status === 200) {
+        setShowBtn(true)
+      }
+    }).catch(error => {
+      if (error.response.status !== 200) {
+        setTextToolTip('Thêm bảng thất bại')
+        setTypeToolTip(false)
+        setShowToolTip(true)
+      }
+    })
     // //////////
-    setShowBtn(true)
   }
+
+  const handleClose = () => {
+    setShowToolTip(false)
+  }
+
   return (
     <div className="inboxChildren-wrapper">
+      {showToolTip &&
+        <ToolTip
+          type={typeToolTip}
+          message={ textToolTip }
+          handleClose={handleClose}
+        />
+      }
       <div className="link" >
         <div className="contentChildren">
           {props.content}

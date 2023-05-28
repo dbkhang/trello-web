@@ -7,7 +7,7 @@ export const fetchBoardDetails = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const fetchupdateBoard = async (data) => {
@@ -17,7 +17,7 @@ export const fetchupdateBoard = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const createNewColumn = async (data) => {
@@ -27,7 +27,7 @@ export const createNewColumn = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const updateColumn = async (id, data) => {
@@ -37,7 +37,7 @@ export const updateColumn = async (id, data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIupdateTitleBoard = async (data) => {
@@ -47,7 +47,7 @@ export const APIupdateTitleBoard = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIinviteMember = async (data) => {
@@ -57,7 +57,7 @@ export const APIinviteMember = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIshowMember = async (data) => {
@@ -67,7 +67,7 @@ export const APIshowMember = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIdeleteMember = async (data) => {
@@ -77,7 +77,7 @@ export const APIdeleteMember = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIupdateColor = async (data) => {
@@ -87,7 +87,7 @@ export const APIupdateColor = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const updateColumnAPI = async (id, data) => {
@@ -101,7 +101,7 @@ export const updateColumnAPI = async (id, data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const updateCardAPI = async (id, data) => {
@@ -115,5 +115,5 @@ export const updateCardAPI = async (id, data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }

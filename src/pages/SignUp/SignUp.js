@@ -11,6 +11,8 @@ function SignUp() {
   const [rPassword, setRPassword] = useState('')
   const [error, setError] = useState(null)
   const history = useNavigate()
+  // const state = useLocation()
+
 
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email)
@@ -35,9 +37,9 @@ function SignUp() {
       rpassword: rPassword
     }
     try {
-      const data = await fetchSignUp(newAccount)
-      if (data === '200') {
-        history.push('/signin')
+      const res = await fetchSignUp(newAccount)
+      if (res.status === 200) {
+        history('/signin')
         localStorage.setItem('signup', 'ok')
       }
     } catch (error) {

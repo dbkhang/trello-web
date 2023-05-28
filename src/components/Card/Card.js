@@ -46,17 +46,16 @@ function Card(props) {
   }
 
   const colorDate = () => {
-    let a = card.status
-    if ( a === 'over time') {
+    if (card.complete) {
       return {
-        background: 'red',
-        color: 'white'
+        background: '#dffcf0',
+        color: '#4fcc25'
       }
     } else {
-      if ( a === 'complete') {
+      if (card.overTime) {
         return {
-          background: '#dffcf0',
-          color: '#4fcc25'
+          background: 'red',
+          color: 'white'
         }
       } else {
         return {
@@ -65,6 +64,27 @@ function Card(props) {
         }
       }
     }
+    
+    
+    // let a = card.status
+    // if ( a === 'over time') {
+    //   return {
+    //     background: 'red',
+    //     color: 'white'
+    //   }
+    // } else {
+    //   if ( a === 'complete') {
+    //     return {
+    //       background: '#dffcf0',
+    //       color: '#4fcc25'
+    //     }
+    //   } else {
+    //     return {
+    //       background: '#f8f8f8',
+    //       color: '#000'
+    //     }
+    //   }
+    // }
   }
   return (
     <>
@@ -79,15 +99,6 @@ function Card(props) {
         <div className="header-card">
           <div className="card_title">{card.title}</div>
         </div>
-        {/* <div className="card_top">
-          <div className="card_top_labels">
-            {card.labels?.map((item, index) => (
-              <label key={index} style={{ backgroundColor: item.colors }}>
-                {item.title}
-              </label>
-            ))}
-          </div>
-        </div> */}
         <div className="card_footer">
           {card.date && (
             <p className="card_footer_item" style={{ backgroundColor: colorDate().background, color: colorDate().color }}>

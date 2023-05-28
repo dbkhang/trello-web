@@ -1,22 +1,32 @@
 import axios from 'axios'
 
-export const fetchDataHome = async () => {
-  const request = await axios.get('http://localhost:3000', '', {
+export const fetchDataUser = async () => {
+  const request = await axios.post('http://localhost:3000', '', {
     headers: {
       'Authorization': localStorage.getItem('accessToken'),
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
+}
+
+export const fetchDataListBoard = async () => {
+  const request = await axios.post('http://localhost:3000', '', {
+    headers: {
+      'Authorization': localStorage.getItem('accessToken'),
+      'Content-Type': 'application/json'
+    }
+  })
+  return request
 }
 
 export const createNewBoard = async (data) => {
-  const request = await axios.get('http://localhost:3000', data, {
+  const request = await axios.post('http://localhost:3000', data, {
     headers: {
       'Authorization': localStorage.getItem('accessToken'),
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 

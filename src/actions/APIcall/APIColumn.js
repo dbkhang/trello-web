@@ -7,7 +7,7 @@ export const createNewCard = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const updateTitleColumn = async (data) => {
@@ -17,7 +17,7 @@ export const updateTitleColumn = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const removeColumnAPI = async (data) => {
@@ -27,6 +27,6 @@ export const removeColumnAPI = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 

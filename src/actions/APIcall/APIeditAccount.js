@@ -7,7 +7,7 @@ export const APIupdatePassword = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
 
 export const APIupdateInformation = async (data) => {
@@ -17,5 +17,5 @@ export const APIupdateInformation = async (data) => {
       'Content-Type': 'application/json'
     }
   })
-  return request.data
+  return request
 }
