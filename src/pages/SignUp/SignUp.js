@@ -40,7 +40,6 @@ function SignUp() {
       password: password,
       rpassword: rPassword
     }
-    localStorage.setItem('signup', 'ok')
     try {
       const res = await fetchSignUp(newAccount)
       if (res.status === 200) {
