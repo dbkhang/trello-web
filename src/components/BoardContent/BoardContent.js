@@ -104,12 +104,14 @@ function BoardContent() {
         updateColumnAPI(currenColumn.id, currenColumn).catch(() => setColumns(columns))
       } else {
         // API di chuyen card
+        // console.log('aaa');
         updateColumnAPI(currenColumn.id, currenColumn).catch(() => setColumns(columns))
-        if (dropResult.addedIndex !== null) {
-          let currenCard = dropResult.payload
-          currenCard.columnId = currenColumn.id
-          updateCardAPI(currenCard.id, currenCard)
-        }
+        // if (dropResult.addedIndex !== null) {
+        //   let currenCard = dropResult.payload
+        //   currenCard.columnId = currenColumn.id
+        //   updateCardAPI(currenCard.id, currenCard)
+        //   console.log('bbb');
+        // }
         // updateColumnAPI(data).catch(() => setColumns(columns))
       }
     }
