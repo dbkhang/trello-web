@@ -9,7 +9,7 @@ export const fetchSignIn = async (data) => {
 }
 
 export const fetchSignUp = async (data) => {
-  const request = await axios.post('http://localhost:3000', data, {
+  const request = await axios.post('http://localhost:3000?emai' , {
     headers: { 'Content-Type': 'application/json' }
     // withCredentials: true
   })

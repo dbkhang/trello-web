@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import './EditAccount.scss'
 import TopBar from 'components/TopBar/TopBar'
-import ToolTip from 'components/ToolTip/ToolTip'
 import { fetchDataUser, fetchDataListBoard } from 'actions/APIcall/APIPageHome'
 import { APIupdatePassword, APIupdateInformation } from 'actions/APIcall/APIeditAccount'
 // import { dataUser } from 'actions/initialData'
@@ -20,9 +21,6 @@ function EditAccount() {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errChangePassword, setErrChangePassword] = useState('')
-  const [showToolTip, setShowToolTip] = useState(false)
-  const [textToolTip, setTextToolTip] = useState('')
-  const [typeToolTip, setTypeToolTip] = useState()
 
 
   useEffect(() => {
@@ -99,15 +97,15 @@ function EditAccount() {
     }
     APIupdatePassword(dataPass).then(res => {
       if (res.status === 200) {
-        setTextToolTip('Thay đổi mật khẩu thành công')
-        setShowToolTip(true)
-        setTypeToolTip(true)
+        toast.success('Đổi mật khẩu thành công!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     }).catch(error => {
       if (error.response.status !== 200) {
-        setTextToolTip('Thay đổi mật khẩu thất bại')
-        setShowToolTip(true)
-        setTypeToolTip(false)
+        toast.success('Đổi mật khẩu thất bại!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     })
   }
@@ -135,26 +133,16 @@ function EditAccount() {
       }
     }).catch(error => {
       if (error.response.status !== 200) {
-        setTextToolTip('Thay đổi thông tin thất bại')
-        setShowToolTip(true)
-        setTypeToolTip(false)
+        toast.error('Đổi thông tin thất bại!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     })
   }
 
-  const handleClose = () => {
-    setShowToolTip(false)
-  }
-
   return (
     <div>
-      {showToolTip &&
-        <ToolTip
-          type={typeToolTip}
-          message={ textToolTip }
-          handleClose={handleClose}
-        />
-      }
+      <ToastContainer />
       <TopBar
         user={userData}
         data={userListBoard}

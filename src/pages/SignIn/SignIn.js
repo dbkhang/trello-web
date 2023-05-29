@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import './SignIn.scss'
-import ToolTip from 'components/ToolTip/ToolTip'
 import { fetchSignIn, fetchParam } from 'actions/APIcall'
 
 function SignIn() {
@@ -11,7 +12,6 @@ function SignIn() {
   const [error, setError] = useState(null)
   const history = useNavigate()
   const [searchParams] = useSearchParams()
-  const [showToolTip, setShowToolTip] = useState(localStorage.getItem('signup')=='ok'? true:false)
 
 
   function isValidEmail(email) {
@@ -19,6 +19,12 @@ function SignIn() {
   }
 
   useEffect(() => {
+    if (localStorage.getItem('signup') === 'ok') {
+      localStorage.removeItem('signup')
+      toast.success('Vào emal xác nhận tạo tài khoản!', {
+        position: toast.POSITION.TOP_RIGHT
+      })
+    }
     if (searchParams.get('id')) {
       try {
         fetchParam(searchParams.get('id'))
@@ -46,28 +52,19 @@ function SignIn() {
     try {
       let response = await fetchSignIn(dataReq)
       if (response.status === 200) {
+        localStorage.removeItem('signup')
         let data = response.data
         localStorage.setItem('accessToken', data.Token)
-        history('/', { state: data.user })
+        history('/')
       }
     } catch (error) {
       setError(error.message)
     }
   }
 
-  const handleClose = () => {
-    setShowToolTip(false)
-  }
-
   return (
     <div className="main-signin">
-      {showToolTip &&
-        <ToolTip
-          type={true}
-          message={'Đăng ký tài khoản thành công. Hãy vào email để xác nhận!'}
-          handleClose={handleClose}
-        />
-      }
+      <ToastContainer />
       <div className="content-signin">
         <div className="title-signin"><h2>Đăng nhập Trello</h2></div>
         <form>

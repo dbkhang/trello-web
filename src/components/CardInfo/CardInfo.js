@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import HeadlessTippy from '@tippyjs/react/headless'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import './CardInfo.scss'
-import ToolTip from 'components/ToolTip/ToolTip'
 import ModalCardInfo from '../Modal/ModalCardInfo'
 import InputForm from 'components/InputForm/InputForm'
 import Comment from 'components/Comment/Comment'
@@ -22,9 +23,6 @@ function CardInfo(props) {
   const [overTime, setOverTime] = useState(values.overTime)
   // const [dataUser, setDataUser] = useState()
   const [showInvite, setShowInvite] = useState(values.userName != null? false:true)
-  const [showToolTip, setShowToolTip] = useState(false)
-  const [textToolTip, setTextToolTip] = useState('')
-  const [typeToolTip, setTypeToolTip] = useState(true)
   const [showBtnChange, setShowBtnChange] = useState(false)
   const _ = require('lodash');
 
@@ -349,15 +347,11 @@ function CardInfo(props) {
       }
     }).catch(error => {
       if (error.response.status !== 200) {
-        setTextToolTip('Thay đổi thẻ thất bại')
-        setTypeToolTip(false)
-        setShowToolTip(true)
+        toast.error('Thay đổi thông tin thẻ thất bại!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     })
-  }
-
-  const handleClose = () => {
-    setShowToolTip(!showToolTip)
   }
 
   useEffect(() => {
@@ -372,13 +366,7 @@ function CardInfo(props) {
 
   return (
     <ModalCardInfo onClose={onClose}>
-      {showToolTip &&
-        <ToolTip
-          type={typeToolTip}
-          message={ textToolTip }
-          handleClose={handleClose}
-        />
-      }
+      <ToastContainer />
       <div className="cardinfo">
         <div className="icon-close" onClick={() => show(false)}>
           <i className="fa fa-times" />

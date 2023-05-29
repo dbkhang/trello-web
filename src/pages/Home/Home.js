@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import './Home.scss'
-import ToolTip from 'components/ToolTip/ToolTip'
 import TopBar from 'components/TopBar/TopBar'
 import CardBoardItem from 'components/CardBoardItem/CardBoardItem'
 import InputForm from 'components/InputForm/InputForm'
@@ -13,11 +14,11 @@ function Home() {
   const [userListBoard, setUserListBoard] = useState([])
   // const [board, setBoard] = useState(userListBoard)
   const history = useNavigate()
-  const [showToolTip, setShowToolTip] = useState(false)
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
-    if (token !== '') {
-      // history('/signin')
+    if (!token) {
+      history('/signin')
     }
     fetchDataUser().then(res => {
       if (res.status === 200) {
@@ -73,7 +74,9 @@ function Home() {
       }
     }).catch (err => {
       if (err.response.status !== 200) {
-        setShowToolTip(true)
+        toast.error('Tạo bảng thất bại!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     })
   }
@@ -84,19 +87,9 @@ function Home() {
     setUserListBoard(newBoard)
   }
 
-  const handleClose = () => {
-    setShowToolTip(false)
-  }
-
   return (
     <div className="container__home">
-      {showToolTip &&
-        <ToolTip
-          type={false}
-          message={'Tạo bảng thất bại'}
-          handleClose={handleClose}
-        />
-      }
+      <ToastContainer />
       <TopBar
         user={userData}
         data={userListBoard}
