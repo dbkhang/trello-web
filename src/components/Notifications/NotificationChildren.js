@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 // import { NavLink } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import './Notifications.scss'
-import ToolTip from 'components/ToolTip/ToolTip'
 import { APIupdateNotifications } from 'actions/APIcall/APINotifications'
 
 function NotificationChildren(props) {
   const [showBtn, setShowBtn] = useState(props.type)
-  const [showToolTip, setShowToolTip] = useState(false)
-  const [textToolTip, setTextToolTip] = useState('')
-  const [typeToolTip, setTypeToolTip] = useState()
 
   const handelShowBtnYes = () => {
     const data = {
@@ -25,9 +23,9 @@ function NotificationChildren(props) {
       }
     }).catch(error => {
       if (error.response.status !== 200) {
-        setTextToolTip('Thêm bảng thành công')
-        setTypeToolTip(true)
-        setShowToolTip(true)
+        toast.error('Thêm bảng thất bại!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     })
 
@@ -45,27 +43,17 @@ function NotificationChildren(props) {
       }
     }).catch(error => {
       if (error.response.status !== 200) {
-        setTextToolTip('Thêm bảng thất bại')
-        setTypeToolTip(false)
-        setShowToolTip(true)
+        toast.error('Từ trối thất bại!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     })
     // //////////
   }
 
-  const handleClose = () => {
-    setShowToolTip(false)
-  }
-
   return (
     <div className="inboxChildren-wrapper">
-      {showToolTip &&
-        <ToolTip
-          type={typeToolTip}
-          message={ textToolTip }
-          handleClose={handleClose}
-        />
-      }
+      <ToastContainer />
       <div className="link" >
         <div className="contentChildren">
           {props.content}

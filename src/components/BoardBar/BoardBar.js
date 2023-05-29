@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Form } from 'react-bootstrap'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import './BoardBar.scss'
 import InfoMember from 'components/InfoMember/InfoMember'
-import ToolTip from 'components/ToolTip/ToolTip'
 import { APIupdateTitleBoard,
   APIinviteMember,
   APIshowMember,
@@ -30,8 +31,6 @@ function BoardBar(props) {
   const [inviteMember, setInviteMember] = useState('')
   const focusInput = useRef()
   const [listMember, setListMember] = useState()
-  const [showToolTip, setShowToolTip] = useState(false)
-  const [textToolTip, setTextToolTip] = useState('')
 
   useEffect(() => {
     if (focusInput && focusInput.current) {
@@ -51,8 +50,9 @@ function BoardBar(props) {
       }
     }).catch(error => {
       if (error.response.status !== 200) {
-        setTextToolTip('Thêm thành viên thất bại')
-        setShowToolTip(true)
+        toast.error('Thêm thành viên thất bại', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     })
     // setShowInvite(!showInvite)
@@ -92,8 +92,9 @@ function BoardBar(props) {
       }
     }).catch(error => {
       if (error.response.status !== 200) {
-        setTextToolTip('Xoá thành viên thất bại')
-        setShowToolTip(true)
+        toast.error('Xoá thành viên thất bại', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     })
   }
@@ -122,28 +123,18 @@ function BoardBar(props) {
       }
     }).catch(error => {
       if (error.response.status !== 200) {
-        setTextToolTip('Thay đổi màu thất bại')
-        setShowToolTip(true)
+        toast.error('Thay đổi màu sắc thất bại', {
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
     })
     setSelectedColor(color)
     props.updateColorBoard(color)
   }
 
-  const handleClose = () => {
-    setShowToolTip(false)
-    localStorage.removeItem('signup')
-  }
-
   return (
     <nav className="navbar-board" style={{ selectedColor }}>
-      {showToolTip &&
-        <ToolTip
-          type={false}
-          message={ textToolTip }
-          handleClose={handleClose}
-        />
-      }
+      <ToastContainer />
       <div className="board-info">
         <div className="item">
           <Form.Control

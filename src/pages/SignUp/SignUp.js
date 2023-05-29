@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Backdrop } from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress'
 
 import './SignUp.scss'
 import { fetchSignUp } from 'actions/APIcall'
@@ -11,6 +13,7 @@ function SignUp() {
   const [rPassword, setRPassword] = useState('')
   const [error, setError] = useState(null)
   const history = useNavigate()
+  const [showBackdrop, setShowBackdrop] = useState(false)
   // const state = useLocation()
 
 
@@ -20,6 +23,7 @@ function SignUp() {
 
   const handleSignUp = async (event) => {
     event.preventDefault()
+    setShowBackdrop(true)
     if (email === '' || password === '' || userName === '') {
       return setError('Hãy nhập đẩy đủ thông tin')
     }
@@ -39,6 +43,7 @@ function SignUp() {
     try {
       const res = await fetchSignUp(newAccount)
       if (res.status === 200) {
+        setShowBackdrop(false)
         history('/signin')
         localStorage.setItem('signup', 'ok')
       }
@@ -49,6 +54,15 @@ function SignUp() {
 
   return (
     <div className="main-signup">
+      {showBackdrop &&
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={open}
+          onClick={() => setShowBackdrop(false)}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      }
       <div className="content-signup">
         <div className="title-signup"><h2>Đăng ký tài khoản Trello</h2></div>
         <form>
