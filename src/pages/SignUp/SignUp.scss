@@ -49,6 +49,13 @@
                     background-color: transparent;
                 }
             }
+            .inputError {
+                border: 1px solid red;
+                &:focus {
+                    outline: none;
+                    border: 1px solid red;
+                }
+            }
         }
 
         .text-red-500 {

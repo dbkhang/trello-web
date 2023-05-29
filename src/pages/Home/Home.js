@@ -18,7 +18,7 @@ function Home() {
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
     if (!token) {
-      history('/signin')
+      // history('/signin')
     }
     fetchDataUser().then(res => {
       if (res.status === 200) {

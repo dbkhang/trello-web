@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -12,6 +12,10 @@ function SignIn() {
   const [error, setError] = useState(null)
   const history = useNavigate()
   const [searchParams] = useSearchParams()
+  const [errorEmail, setErrorEmail] = useState(false)
+  const [errorPass, setErrorPass] = useState(false)
+  const focusEmail = useRef()
+  const focusPass = useRef()
 
 
   function isValidEmail(email) {
@@ -37,12 +41,39 @@ function SignIn() {
   const handleSignin = async (event) => {
     event.preventDefault()
 
-    if (email === '' || password === '') {
+    if (email !== '') {
+      setErrorEmail(false)
+    }
+
+    if (password !== '') {
+      setErrorPass(false)
+    }
+
+    if (email === '' && password === '') {
+      setErrorEmail(true)
+      setErrorPass(true)
+      focusEmail.current.focus()
       return setError('Hãy nhập đẩy đủ thông tin')
+    } else {
+      if (email === '' ) {
+        setErrorEmail(true)
+        focusEmail.current.focus()
+        setErrorPass(false)
+        return setError('Hãy nhập Email')
+      } else {
+        if (password === '') {
+          setErrorEmail(false)
+          setErrorPass(true)
+          focusPass.current.focus()
+          return setError('Hãy nhập mật khẩu')
+        }
+      }
     }
 
     if (!isValidEmail(email)) {
-      return setError('Email sai')
+      setErrorEmail(true)
+      focusEmail.current.focus()
+      return setError('Cú pháp Email không hợp lệ')
     }
 
     let dataReq = {
@@ -66,22 +97,24 @@ function SignIn() {
     <div className="main-signin">
       <ToastContainer />
       <div className="content-signin">
-        <div className="title-signin"><h2>Đăng nhập Trello</h2></div>
+        <div className="title-signin"><h2>Đăng nhập</h2></div>
         <form>
           <div className="input-signin">
             <label>Email</label>
             <input
-              // placeholder="Email"
+              className={errorEmail ? 'inputError' : ''}
               type="email"
               onChange={(event) => setEmail(event.target.value)}
+              ref={focusEmail}
             />
           </div>
           <div className="input-signin">
             <label>Mật khẩu</label>
             <input
               type="password"
-              // placeholder="Password"
+              className={errorPass ? 'inputError' : ''}
               onChange={(event) => setPassword(event.target.value)}
+              ref={focusPass}
             />
           </div>
           <div className="text-red-500">{error}</div>
