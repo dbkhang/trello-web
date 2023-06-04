@@ -258,3 +258,14 @@ $topbar-bg-color: #448030;
       border-color: rgba(22, 24, 35, 0.2);
   }
 }
+
+.icon__have-notification {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 10px
+
+}

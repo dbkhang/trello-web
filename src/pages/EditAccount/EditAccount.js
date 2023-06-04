@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import './EditAccount.scss'
@@ -142,7 +142,7 @@ function EditAccount() {
 
   return (
     <div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <TopBar
         user={userData}
         data={userListBoard}

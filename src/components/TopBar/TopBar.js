@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import HeadlessTippy from '@tippyjs/react/headless'
+import { ToastContainer } from 'react-toastify'
 
 import './TopBar.scss'
 import Notifications from 'components/Notifications/Notifications'
 import { useDebounce } from 'utilities/useDebounce'
 import { searchAPI } from 'actions/APIcall/searchAPI'
+import { HubConnectionBuilder } from '@microsoft/signalr'
 import { APIgetNotifications } from 'actions/APIcall/APINotifications'
 
+let dataAPINotifications = null
+
+const connection = new HubConnectionBuilder()
+  .withUrl('http://localhost:5000/notificationHub')
+  .withAutomaticReconnect()
+  .build()
+
+connection.start().catch(error => console.error(error))
+
+connection.on('ReceiveNotification', message => {
+  dataAPINotifications = message
+})
 
 function TopBar(props) {
   const [listBoard, setListBoard] = useState([])
@@ -17,26 +31,38 @@ function TopBar(props) {
   const [dataNotifications, setDataNotifications] = useState()
   const [textSearch, setTextSearch] = useState()
   const debouncedSearch = useDebounce(textSearch, 1000)
+  const [showIconNotification, setShowIconNotification] = useState(false)
+
+  useEffect(() => {
+    APIgetNotifications().then(res => {
+      if (res.status === 200) {
+        let data = res.data
+        setDataNotifications(data)
+      }
+    }).catch(error => console.log(error))
+  }, [])
+
+  useEffect(() => {
+    if (dataAPINotifications !== null) {
+      setShowIconNotification(true)
+    }
+
+    if (dataAPINotifications === props.user.userId) {
+      if (dataAPINotifications !== null) {
+        setDataNotifications(dataAPINotifications)
+        setShowIconNotification(true)
+      }
+    }
+  }, [dataAPINotifications])
+
+  const handleShowNotifications = () => {
+    setShowNotifications(!showNotifications)
+    setShowIconNotification(false)
+  }
 
   useEffect(() => {
     setListBoard(props.data)
-  }, [showListBoard])
-
-  const handleShowNotifications = () => {
-    // /////////////
-    if (!showNotifications) {
-      APIgetNotifications().then(res => {
-        if (res.status === 200) {
-          let data = res.data
-          setDataNotifications(data)
-          setShowNotifications(!showNotifications)
-        }
-      }).catch(error => console.log(error))
-    }
-
-    // /////////////
-    // setShowNotifications(!showNotifications)
-  }
+  }, [ showListBoard ])
 
   const searchBoard = (e) => {
     setTextSearch(e.target.value)
@@ -111,6 +137,9 @@ function TopBar(props) {
         >
           <div className="item notification" onClick={handleShowNotifications}>
             <i className="fa fa-bell-o" />
+            { showIconNotification &&
+              <div className="icon__have-notification"></div>
+            }
           </div>
         </HeadlessTippy>
         <HeadlessTippy
@@ -131,8 +160,8 @@ function TopBar(props) {
                   </div>
                 </div>
                 <div className="user-content-actions">
-                  <Link to="/editaccount"><div>Sua thong tin ca nhan</div></Link>
-                  <Link to="/signin"><div>Sign out</div></Link>
+                  <Link to="/editaccount"><div>Sửa thông tin cá nhân</div></Link>
+                  <Link to="/signin"><div>Đăng xuất</div></Link>
                 </div>
               </div>
             </div>
@@ -148,6 +177,7 @@ function TopBar(props) {
           </div>
         </HeadlessTippy>
       </div>
+      <ToastContainer />
     </nav>
   )
 }
