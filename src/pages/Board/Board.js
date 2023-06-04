@@ -23,20 +23,31 @@ function Board() {
 
 
     const abc = {
+      userId: '123',
       imageUser: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg',
-      userName: 'aaaa',
-      userEmail: 'ccccc'
+      userName: 'Khang',
+      userEmail: 'dbkhang@gmail.com'
     }
     const ccc = [
       {
         id: '1',
-        title: 'board 1',
-        color: '#333'
+        title: 'Bảng 1',
+        color: '#a8193d'
       },
       {
         id: '2',
-        title: 'board 2',
-        color: '#133'
+        title: 'Bảng 2',
+        color: '#4fcc25'
+      },
+      {
+        id: '1',
+        title: 'Bảng 3',
+        color: '#1ebffa'
+      },
+      {
+        id: '2',
+        title: 'Bảng 4',
+        color: '#8da377'
       }
     ]
     setUserData(abc)

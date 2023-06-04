@@ -93,7 +93,7 @@
     .btn-content {
 
         .btn-yes {
-            width: 50px;
+            width: 100px;
             height: 25px;
             font-size: 15px;
             border: 1px solid #444;
@@ -106,7 +106,7 @@
         }
 
         .btn-no {
-            width: 50px;
+            width: 100px;
             height: 25px;
             font-size: 15px;
             border: 1px solid #444;
@@ -117,6 +117,10 @@
             background-color: red;
         }
     }
+}
+
+.ToastContainer {
+    z-index: 2000;
 }
 
 

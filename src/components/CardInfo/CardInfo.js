@@ -366,7 +366,6 @@ function CardInfo(props) {
 
   return (
     <ModalCardInfo onClose={onClose}>
-      <ToastContainer />
       <div className="cardinfo">
         <div className="icon-close" onClick={() => show(false)}>
           <i className="fa fa-times" />

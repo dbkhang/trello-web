@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import { NavLink } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import './Notifications.scss'
@@ -53,7 +53,6 @@ function NotificationChildren(props) {
 
   return (
     <div className="inboxChildren-wrapper">
-      <ToastContainer />
       <div className="link" >
         <div className="contentChildren">
           {props.content}
@@ -64,8 +63,8 @@ function NotificationChildren(props) {
       </div>
       {!showBtn &&
         <div className="btn-content">
-          <button className="btn-yes" onClick={handelShowBtnYes}>YES</button>
-          <button className="btn-no" onClick={handelShowBtnNo}>NO</button>
+          <button className="btn-yes" onClick={handelShowBtnYes}>Đồng ý</button>
+          <button className="btn-no" onClick={handelShowBtnNo}>Từ chối</button>
         </div>
       }
     </div>

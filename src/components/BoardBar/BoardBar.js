@@ -30,7 +30,7 @@ function BoardBar(props) {
   const [showInvite, setShowInvite] = useState(false)
   const [inviteMember, setInviteMember] = useState('')
   const focusInput = useRef()
-  const [listMember, setListMember] = useState()
+  const [listMember, setListMember] = useState([])
 
   useEffect(() => {
     if (focusInput && focusInput.current) {
@@ -55,6 +55,17 @@ function BoardBar(props) {
         })
       }
     })
+
+
+    fetch('/notification', {
+      method: 'POST',
+      body: JSON.stringify({ data }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('accessToken')
+      }
+    })
+
     // setShowInvite(!showInvite)
   }
 
@@ -78,10 +89,27 @@ function BoardBar(props) {
 
   const handleShowMember = () => {
     // API xem thanh vien
+    setShowMemberBoard(!showMemberBoard)
     APIshowMember(idBoard).then(rep => {
       setListMember(rep)
       setShowMemberBoard(!showMemberBoard)
     }).catch(error => console.log(error))
+    let aaaa = [
+      {
+        id: 'aaa',
+        userName: 'Hoàng',
+        email: 'nvhoang@gmail.com',
+        image: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg'
+      },
+      {
+        id: 'aaa',
+        userName: 'Hoa',
+        email: 'nthoa@gmail.com',
+        image: 'https://kynguyenlamdep.com/wp-content/uploads/2020/01/hinh-anh-dep-hoa-bo-cong-anh.jpg'
+      }
+    ]
+    setShowMemberBoard(!showMemberBoard)
+    setListMember(aaaa)
   }
 
   const deleteMember = (data) => {
@@ -134,7 +162,7 @@ function BoardBar(props) {
 
   return (
     <nav className="navbar-board" style={{ selectedColor }}>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className="board-info">
         <div className="item">
           <Form.Control
